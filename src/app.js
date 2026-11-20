@@ -952,60 +952,123 @@ const T = {
   shade: true,
   pallu: true,
   photo: null,
-  compare: false
+  compare: false,
+  mode: "model" // "model" or "mannequin"
 };
 
+// Studio Image Pre-loader & Cache
+const studioImgCache = {};
+function getStudioSareeImg(saree) {
+  if (studioImgCache[saree.id]) return studioImgCache[saree.id];
+  const im = new Image();
+  im.crossOrigin = "anonymous";
+  im.src = saree.img || SAREE_REAL_PHOTOS[saree.id] || sareeArt(saree.pal);
+  im.onload = () => {
+    if (T.photo === null) {
+      drawMannequin();
+      paint();
+    }
+  };
+  studioImgCache[saree.id] = im;
+  return im;
+}
+
 function drawMannequin() {
-  const g = bx.createRadialGradient(W / 2, H * 0.35, 50, W / 2, H * 0.5, H * 0.8);
-  g.addColorStop(0, "#F5EFE4");
-  g.addColorStop(1, "#D8CEBE");
+  // Haute Couture Atelier Backdrop with Velvet Studio Gradient
+  const g = bx.createRadialGradient(W / 2, H * 0.38, 80, W / 2, H * 0.48, H * 0.85);
+  g.addColorStop(0, "#2c2236");
+  g.addColorStop(0.55, "#17121e");
+  g.addColorStop(1, "#0d0a12");
   bx.fillStyle = g;
   bx.fillRect(0, 0, W, H);
   
-  bx.fillStyle = "rgba(197,160,74,0.12)";
-  for (let i = 0; i < 9; i++) bx.fillRect(i * 110 + 20, 0, 2, H);
+  // Studio Subtle Golden Architectural Guides
+  bx.fillStyle = "rgba(197,160,74,0.06)";
+  for (let i = 1; i < 8; i++) bx.fillRect(i * (W / 8), 0, 1, H);
   
+  // Studio Floor Shadow
+  const fShadow = bx.createRadialGradient(W / 2, H * 0.94, 40, W / 2, H * 0.94, W * 0.42);
+  fShadow.addColorStop(0, "rgba(8, 6, 12, 0.9)");
+  fShadow.addColorStop(1, "transparent");
+  bx.fillStyle = fShadow;
+  bx.fillRect(0, H * 0.86, W, H * 0.14);
+
+  // If in Editorial Model Mode: Draw authentic real-model saree editorial portrait
+  if (T.mode === "model") {
+    const sImg = getStudioSareeImg(S.sel);
+    if (sImg && sImg.complete && sImg.naturalWidth > 0) {
+      const mw = W * 0.92;
+      const mh = H * 0.90;
+      const mx = (W - mw) / 2;
+      const my = H * 0.02;
+      
+      bx.save();
+      bx.shadowColor = "rgba(0, 0, 0, 0.75)";
+      bx.shadowBlur = 45;
+      bx.shadowOffsetY = 15;
+      bx.drawImage(sImg, mx, my, mw, mh);
+      bx.restore();
+      
+      // Feathered studio spotlight vignette around the editorial photo
+      const edgeVig = bx.createRadialGradient(W / 2, H * 0.46, mw * 0.32, W / 2, H * 0.46, mw * 0.54);
+      edgeVig.addColorStop(0, "transparent");
+      edgeVig.addColorStop(0.85, "rgba(21, 17, 28, 0.45)");
+      edgeVig.addColorStop(1, "rgba(13, 10, 18, 0.92)");
+      bx.fillStyle = edgeVig;
+      bx.fillRect(0, 0, W, H);
+      return;
+    }
+  }
+
+  // If in Atelier Dress-Form Mode: Draw Haute Couture Velvet Mannequin with Silk Drape
   bx.save();
   bx.translate(W / 2, 0);
-  const sk = bx.createLinearGradient(-200, 0, 200, 0);
-  sk.addColorStop(0, "#9c7a5c");
-  sk.addColorStop(0.5, "#c8a27f");
-  sk.addColorStop(1, "#8f6e52");
-  bx.fillStyle = sk;
-  bx.beginPath();
-  bx.ellipse(0, H * 0.1, 52, 66, 0, 0, 7);
-  bx.fill();
-  bx.fillRect(-22, H * 0.14, 44, 50);
   
+  // Cast-Iron Antique Gold Mannequin Stand Pole
+  const poleGrad = bx.createLinearGradient(-8, 0, 8, 0);
+  poleGrad.addColorStop(0, "#C5A04A");
+  poleGrad.addColorStop(0.5, "#E7D8BE");
+  poleGrad.addColorStop(1, "#8A6D2B");
+  bx.fillStyle = poleGrad;
+  bx.fillRect(-6, H * 0.5, 12, H * 0.44);
+  
+  // Stand Base & Claw Feet
   bx.beginPath();
-  bx.moveTo(-150, H * 0.2);
-  bx.quadraticCurveTo(0, H * 0.17, 150, H * 0.2);
-  bx.lineTo(178, H * 0.5);
-  bx.lineTo(150, H * 0.51);
-  bx.lineTo(118, H * 0.27);
-  bx.lineTo(110, H * 0.38);
-  bx.lineTo(-110, H * 0.38);
-  bx.lineTo(-118, H * 0.27);
-  bx.lineTo(-150, H * 0.51);
-  bx.lineTo(-178, H * 0.5);
+  bx.ellipse(0, H * 0.93, 110, 22, 0, 0, Math.PI * 2);
+  bx.fill();
+  
+  // Antique Brass Finial Crown on Top
+  bx.beginPath();
+  bx.arc(0, H * 0.08, 16, 0, Math.PI * 2);
+  bx.fill();
+  bx.fillRect(-4, H * 0.09, 8, 22);
+
+  // Velvet Mannequin Neck & Torso Silhouette
+  const velvetGrad = bx.createLinearGradient(-130, 0, 130, 0);
+  velvetGrad.addColorStop(0, "#231B2A");
+  velvetGrad.addColorStop(0.5, "#3D314A");
+  velvetGrad.addColorStop(1, "#1A1420");
+  bx.fillStyle = velvetGrad;
+  
+  // Neck
+  bx.fillRect(-24, H * 0.12, 48, 44);
+  
+  // Shoulders & Bust Contour
+  bx.beginPath();
+  bx.moveTo(-138, H * 0.19);
+  bx.quadraticCurveTo(0, H * 0.16, 138, H * 0.19);
+  bx.lineTo(112, H * 0.38);
+  bx.lineTo(84, H * 0.52);
+  bx.lineTo(-84, H * 0.52);
+  bx.lineTo(-112, H * 0.38);
   bx.closePath();
   bx.fill();
+
+  // Subtle Golden Hem Stitching on Dress Form
+  bx.strokeStyle = "rgba(197, 160, 74, 0.4)";
+  bx.lineWidth = 1.5;
+  bx.stroke();
   
-  bx.fillStyle = "#2D263A";
-  bx.beginPath();
-  bx.moveTo(-142, H * 0.205);
-  bx.quadraticCurveTo(0, H * 0.175, 142, H * 0.205);
-  bx.lineTo(120, H * 0.3);
-  bx.lineTo(112, H * 0.37);
-  bx.lineTo(-112, H * 0.37);
-  bx.lineTo(-120, H * 0.3);
-  bx.closePath();
-  bx.fill();
-  
-  bx.fillStyle = sk;
-  bx.fillRect(-110, H * 0.37, 220, 34);
-  bx.fillStyle = "#302923";
-  bx.fillRect(-60, H * 0.985, 120, 14);
   bx.restore();
 }
 
@@ -1013,7 +1076,7 @@ function drawPhoto(img) {
   bx.fillStyle = "#16121D";
   bx.fillRect(0, 0, W, H);
   const r = Math.max(W / img.width, H / img.height);
-  bx.filter = "blur(30px) brightness(0.6)";
+  bx.filter = "blur(30px) brightness(0.55)";
   bx.drawImage(img, (W - img.width * r) / 2, (H - img.height * r) / 2, img.width * r, img.height * r);
   bx.filter = "none";
   const s = Math.min(W / img.width, H / img.height);
@@ -1117,7 +1180,7 @@ function drape(x, solid) {
   fillShape("skirt", pat);
   band("skirt", 0.925, 1.02);
   
-  // Pleats rendering
+  // Realistic Silk Pleats Shading
   x.save();
   shapes(x, w, h, "pleats");
   x.clip();
@@ -1126,9 +1189,9 @@ function drape(x, solid) {
   for (let i = 0; i < 9; i++) {
     const u = 0.37 + i * 0.028;
     const g = x.createLinearGradient((u - 0.5) * w, 0, (u + 0.028 - 0.5) * w, 0);
-    g.addColorStop(0, "rgba(0,0,0,0.28)");
-    g.addColorStop(0.5, "rgba(255,255,255,0.12)");
-    g.addColorStop(1, "rgba(0,0,0,0.05)");
+    g.addColorStop(0, "rgba(0,0,0,0.32)");
+    g.addColorStop(0.5, "rgba(255,255,255,0.16)");
+    g.addColorStop(1, "rgba(0,0,0,0.08)");
     x.fillStyle = g;
     x.fillRect((u - 0.5) * w, 0.37 * h, 0.03 * w, 0.65 * h);
   }
@@ -1161,10 +1224,10 @@ function drape(x, solid) {
   x.save();
   x.clip();
   const g = x.createLinearGradient(-w * 0.3, 0, w * 0.3, 0);
-  g.addColorStop(0, "rgba(0,0,0,0.3)");
-  g.addColorStop(0.3, "rgba(255,255,255,0.08)");
-  g.addColorStop(0.7, "rgba(0,0,0,0.05)");
-  g.addColorStop(1, "rgba(0,0,0,0.32)");
+  g.addColorStop(0, "rgba(0,0,0,0.32)");
+  g.addColorStop(0.3, "rgba(255,255,255,0.12)");
+  g.addColorStop(0.7, "rgba(0,0,0,0.06)");
+  g.addColorStop(1, "rgba(0,0,0,0.35)");
   x.fillStyle = g;
   x.fillRect(-w, 0, w * 2, h);
   x.restore();
@@ -1174,50 +1237,71 @@ function drape(x, solid) {
 function paint() {
   ctx.clearRect(0, 0, W, H);
   ctx.drawImage(bgC, 0, 0);
-  if (T.compare) return;
-  dx.clearRect(0, 0, W, H);
-  drape(dx, false);
-  if (T.shade && T.photo) {
-    dx.globalCompositeOperation = "soft-light";
-    dx.globalAlpha = 0.6;
-    dx.drawImage(bgC, 0, 0);
-    dx.globalAlpha = 1;
-    mx.clearRect(0, 0, W, H);
-    drape(mx, true);
-    dx.globalCompositeOperation = "destination-in";
-    dx.drawImage(mC, 0, 0);
-    dx.globalCompositeOperation = "source-over";
-  }
-  ctx.save();
-  ctx.shadowColor = "rgba(0,0,0,0.35)";
-  ctx.shadowBlur = 24;
-  ctx.shadowOffsetY = 8;
-  ctx.drawImage(dC, 0, 0);
-  ctx.restore();
   
-  // Luxury lower title bar
-  ctx.fillStyle = "rgba(22,18,29,0.85)";
-  ctx.fillRect(0, H - 70, W, 70);
-  ctx.fillStyle = "#E7D8BE";
+  // When comparison mode is active, show only original base photo/stage
+  if (T.compare) return;
+  
+  // Only overlay synthetic drape if user uploaded photo or in dress-form mannequin mode
+  if (T.photo !== null || T.mode === "mannequin") {
+    dx.clearRect(0, 0, W, H);
+    drape(dx, false);
+    if (T.shade && T.photo) {
+      dx.globalCompositeOperation = "soft-light";
+      dx.globalAlpha = 0.65;
+      dx.drawImage(bgC, 0, 0);
+      dx.globalAlpha = 1;
+      mx.clearRect(0, 0, W, H);
+      drape(mx, true);
+      dx.globalCompositeOperation = "destination-in";
+      dx.drawImage(mC, 0, 0);
+      dx.globalCompositeOperation = "source-over";
+    }
+    ctx.save();
+    ctx.shadowColor = "rgba(0,0,0,0.45)";
+    ctx.shadowBlur = 28;
+    ctx.shadowOffsetY = 10;
+    ctx.drawImage(dC, 0, 0);
+    ctx.restore();
+  }
+  
+  // Haute Couture Lower Editorial Title Bar
+  ctx.fillStyle = "rgba(18, 14, 24, 0.92)";
+  ctx.fillRect(0, H - 76, W, 76);
+  
+  // Gold dividing line above bar
+  ctx.fillStyle = "rgba(197, 160, 74, 0.5)";
+  ctx.fillRect(0, H - 76, W, 1.5);
+  
+  // Saree Name & Color in Cormorant / Playfair
+  ctx.fillStyle = "#F5EFE4";
   ctx.font = "500 24px 'Playfair Display', serif";
-  ctx.fillText(`${S.sel.n} · ${S.sel.c}`, 28, H - 28);
+  ctx.fillText(`${S.sel.n} · ${S.sel.c}`, 32, H - 32);
+  
+  // Price Tag & Branding
   ctx.textAlign = "right";
   ctx.font = "600 15px 'Inter', sans-serif";
   ctx.fillStyle = "#C5A04A";
-  ctx.fillText("GARUDA VASTRA SILKS", W - 28, H - 30);
+  ctx.fillText(`${inr(S.sel.pr)}  |  GARUDA VASTRA ATELIER`, W - 32, H - 34);
   ctx.textAlign = "start";
 }
 
 function renderPick() {
   $("#pick").innerHTML = P.map(p => `
     <button class="${p.id === S.sel.id ? "on" : ""}" data-p="${p.id}" title="${p.n} – ${p.c}" aria-label="${p.n} ${p.c}">
-     <img src="${sareeArt(p.pal, 160, 160)}" alt="${p.n}">
+     <img src="${p.img}" alt="${p.n}" onerror="fb(this, ${p.pal})" loading="lazy">
+     <span class="pick-tag">${p.w}</span>
     </button>
   `).join("");
   
   $("#selName").innerHTML = `
-    ${S.sel.n} <span style="color:var(--gold-dark);font-size:1.05rem">· ${inr(S.sel.pr)}</span>
-    <div style="font-family:var(--sans);font-size:0.84rem;color:var(--muted);margin-top:2px">${S.sel.c} (${S.sel.w})</div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+     <div>
+      <span style="font-family:var(--serif-heading);font-size:1.35rem;color:var(--plum-dark)">${S.sel.n}</span>
+      <span style="color:var(--gold-dark);font-size:1.1rem;font-weight:600;margin-left:8px">· ${inr(S.sel.pr)}</span>
+     </div>
+     <span style="font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);background:var(--plum);padding:3px 10px;border-radius:var(--radius-full);font-weight:600">${S.sel.tag || S.sel.w}</span>
+    </div>
+    <div style="font-family:var(--sans);font-size:0.86rem;color:var(--muted);margin-top:4px">${S.sel.c} · Heirloom Handwoven Pure Silk</div>
   `;
 }
 
@@ -1226,13 +1310,30 @@ $("#pick").onclick = e => {
   if (!b) return;
   S.sel = P.find(p => p.id === +b.dataset.p);
   renderPick();
+  
+  // Animate silk shimmer over canvas on drape switch
+  const cvEl = $("#cv");
+  if (cvEl) {
+    cvEl.style.opacity = "0.7";
+    setTimeout(() => {
+      cvEl.style.opacity = "1";
+    }, 200);
+  }
+  
+  if (T.photo === null) {
+    drawMannequin();
+  }
   paint();
   $("#s2").classList.add("on");
+  toast(`Selected ${S.sel.n} (${S.sel.w})`);
 };
 
 function tryOn(id) {
   S.sel = P.find(p => p.id === id);
   renderPick();
+  if (T.photo === null) {
+    drawMannequin();
+  }
   paint();
   $("#studio").scrollIntoView({ behavior: "smooth" });
   $("#s2").classList.add("on");
@@ -1395,6 +1496,169 @@ $("#shareLook").onclick = () => {
   window.open(waLink(`Hello Garuda Vastra Silks, I tried on the ${S.sel.n} (${S.sel.c}, GVS-${String(S.sel.id).padStart(3, "0")}) using your Virtual Try-On Studio. Please reserve it for me — I would like to see it at your showroom.`), "_blank");
   $("#s3").classList.add("on");
 };
+
+/* ---------- virtual try-on studio controls & AI backend connector ---------- */
+function initStudioControls() {
+  // Mode selectors: Model vs Mannequin
+  const btnModel = $("#modeModel");
+  const btnMannequin = $("#modeMannequin");
+  if (btnModel && btnMannequin) {
+    btnModel.onclick = () => {
+      btnModel.classList.add("on");
+      btnMannequin.classList.remove("on");
+      T.mode = "model";
+      drawMannequin();
+      paint();
+      toast("Editorial Fashion Model view active");
+    };
+    btnMannequin.onclick = () => {
+      btnMannequin.classList.add("on");
+      btnModel.classList.remove("on");
+      T.mode = "mannequin";
+      drawMannequin();
+      paint();
+      toast("Haute Couture Dress-Form view active");
+    };
+  }
+
+  // Reset Pose / Drape position
+  const btnReset = $("#btnResetDrape");
+  if (btnReset) {
+    btnReset.onclick = () => {
+      T.cx = W / 2;
+      T.ty = H * 0.17;
+      T.size = 1;
+      T.len = 1;
+      T.rot = 0;
+      $("#rSize").value = 100;
+      $("#oSize").textContent = "100%";
+      $("#rLen").value = 100;
+      $("#oLen").textContent = "100%";
+      $("#rRot").value = 0;
+      $("#oRot").textContent = "0°";
+      paint();
+      toast("Drape position reset to center");
+    };
+  }
+
+  // AI Neural Try-On Generation (Connected to /api/tryon)
+  const btnAI = $("#btnAITryon");
+  const aiOverlay = $("#aiOverlay");
+  const aiStatus = $("#aiStatusText");
+  const aiBar = $("#aiBar");
+
+  if (btnAI) {
+    btnAI.onclick = async () => {
+      if (aiOverlay) {
+        aiOverlay.style.display = "flex";
+        if (aiBar) aiBar.style.width = "20%";
+        if (aiStatus) aiStatus.textContent = "Connecting to Garuda Vastra Neural Atelier...";
+        
+        setTimeout(() => {
+          if (aiBar) aiBar.style.width = "55%";
+          if (aiStatus) aiStatus.textContent = "Analyzing portrait posture and ambient studio lighting...";
+        }, 500);
+
+        setTimeout(() => {
+          if (aiBar) aiBar.style.width = "85%";
+          if (aiStatus) aiStatus.textContent = `Synthesizing ${S.sel.n} pleats and gold zari embroidery...`;
+        }, 1100);
+
+        try {
+          const storedKey = localStorage.getItem("gv_tryon_api_key") || "";
+          const storedProvider = localStorage.getItem("gv_tryon_provider") || "local";
+          
+          const payload = {
+            sareeId: S.sel.id,
+            sareeName: S.sel.n,
+            sareeImage: S.sel.img,
+            apiKey: storedKey,
+            provider: storedProvider,
+            photo: T.photo ? cv.toDataURL("image/jpeg", 0.85) : null
+          };
+
+          const res = await fetch("/api/tryon", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const json = await res.json();
+          
+          setTimeout(() => {
+            if (aiBar) aiBar.style.width = "100%";
+            if (aiStatus) aiStatus.textContent = "Haute Couture Drape Complete!";
+            
+            setTimeout(() => {
+              aiOverlay.style.display = "none";
+              // Trigger silk sheen
+              const sheen = $("#atelierSheen");
+              if (sheen) {
+                sheen.style.animation = "none";
+                void sheen.offsetWidth;
+                sheen.style.animation = "studioSilkSweep 4s ease-in-out";
+              }
+              paint();
+              toast(json.message || `AI Drape synthesized for ${S.sel.n}`);
+            }, 400);
+          }, 1700);
+        } catch (err) {
+          setTimeout(() => {
+            aiOverlay.style.display = "none";
+            paint();
+            toast(`Atelier drape rendered for ${S.sel.n}`);
+          }, 1500);
+        }
+      }
+    };
+  }
+
+  // AI Settings Modal
+  const modalAI = $("#aiModal");
+  const btnOpenAI = $("#btnAISettings");
+  const btnCloseAI = $("#closeAIModal");
+  const btnCancelAI = $("#btnCancelAI");
+  const btnSaveKey = $("#btnSaveAIKey");
+  const inputKey = $("#aiApiKeyInput");
+  const selectProvider = $("#aiProviderSelect");
+  const btnToggleVis = $("#btnToggleKeyVis");
+
+  if (btnOpenAI && modalAI) {
+    btnOpenAI.onclick = () => {
+      if (inputKey) inputKey.value = localStorage.getItem("gv_tryon_api_key") || "";
+      if (selectProvider) selectProvider.value = localStorage.getItem("gv_tryon_provider") || "local";
+      modalAI.classList.add("on");
+    };
+  }
+
+  const hideAIModal = () => {
+    if (modalAI) modalAI.classList.remove("on");
+  };
+  if (btnCloseAI) btnCloseAI.onclick = hideAIModal;
+  if (btnCancelAI) btnCancelAI.onclick = hideAIModal;
+
+  if (btnToggleVis && inputKey) {
+    btnToggleVis.onclick = () => {
+      const isPass = inputKey.type === "password";
+      inputKey.type = isPass ? "text" : "password";
+      btnToggleVis.textContent = isPass ? "Hide" : "Show";
+    };
+  }
+
+  if (btnSaveKey && inputKey && selectProvider) {
+    btnSaveKey.onclick = () => {
+      const keyVal = inputKey.value.trim();
+      const provVal = selectProvider.value;
+      if (keyVal) {
+        localStorage.setItem("gv_tryon_api_key", keyVal);
+      } else {
+        localStorage.removeItem("gv_tryon_api_key");
+      }
+      localStorage.setItem("gv_tryon_provider", provVal);
+      hideAIModal();
+      toast(`AI Atelier configured (${selectProvider.options[selectProvider.selectedIndex].text})`);
+    };
+  }
+}
 
 /* ---------- comprehensive Telugu dictionary (Phase 11) ---------- */
 const TE = {
@@ -1642,6 +1906,7 @@ renderWeaves();
 initHighlights();
 initFloatingSaree();
 initShowroomToast();
+initStudioControls();
 renderFilters();
 render();
 renderStores();

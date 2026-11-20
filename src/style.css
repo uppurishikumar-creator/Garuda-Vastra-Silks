@@ -1781,15 +1781,19 @@ nav.main a.badge-tag::before {
   align-items: start;
 }
 
+/* ==========================================================================
+   VIRTUAL TRY-ON STUDIO EXPERIENCE: HAUTE COUTURE ATELIER
+   ========================================================================== */
+
 .studio-stage {
   position: relative;
-  background: #17131F;
+  background: radial-gradient(ellipse at 50% 30%, #282035 0%, #15111c 68%, #0d0a12 100%);
   border-radius: var(--radius-lg);
   overflow: hidden;
   aspect-ratio: 3 / 4;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.75), 0 0 35px rgba(197, 160, 74, 0.15);
   touch-action: none;
-  border: 1px solid rgba(197, 160, 74, 0.3);
+  border: 1px solid rgba(197, 160, 74, 0.38);
 }
 
 .studio-stage canvas {
@@ -1797,39 +1801,133 @@ nav.main a.badge-tag::before {
   height: 100%;
   display: block;
   cursor: grab;
+  transition: opacity 0.3s ease;
 }
 
 .studio-stage canvas:active {
   cursor: grabbing;
 }
 
-.stage-hint {
+/* Decorative Gold Corner Accents */
+.studio-stage .corner {
   position: absolute;
-  left: 16px;
-  top: 16px;
-  background: rgba(33, 28, 43, 0.8);
-  backdrop-filter: blur(8px);
-  color: var(--gold-pale);
-  font-size: 0.74rem;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
+  color: rgba(197, 160, 74, 0.55);
+  font-size: 0.85rem;
+  z-index: 8;
   pointer-events: none;
-  border: 1px solid rgba(197, 160, 74, 0.2);
+  line-height: 1;
+}
+.studio-stage .c-tl { top: 10px; left: 10px; }
+.studio-stage .c-tr { top: 10px; right: 10px; }
+.studio-stage .c-bl { bottom: 10px; left: 10px; }
+.studio-stage .c-br { bottom: 10px; right: 10px; }
+
+/* Luxury Atelier Stage Top Control Bar */
+.stage-top-bar {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.stage-modes, .stage-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.stage-mode-btn {
+  background: rgba(22, 18, 29, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(197, 160, 74, 0.3);
+  border-radius: var(--radius-full);
+  color: rgba(245, 239, 228, 0.8);
+  font-size: 0.72rem;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.stage-mode-btn:hover {
+  background: rgba(197, 160, 74, 0.2);
+  color: #FFFFFF;
+}
+
+.stage-mode-btn.on {
+  background: var(--gold);
+  color: var(--plum);
+  border-color: var(--gold);
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(197, 160, 74, 0.4);
+}
+
+.stage-mode-btn .ico {
+  width: 12px;
+  height: 12px;
+}
+
+.stage-act-btn {
+  background: rgba(22, 18, 29, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(197, 160, 74, 0.3);
+  border-radius: var(--radius-full);
+  color: var(--gold-light);
+  font-size: 0.74rem;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--transition-fast);
+}
+
+.stage-act-btn:hover {
+  background: rgba(197, 160, 74, 0.25);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.stage-act-btn .ico {
+  width: 13px;
+  height: 13px;
+}
+
+.btn-ai-sparkle {
+  background: linear-gradient(135deg, rgba(197, 160, 74, 0.3) 0%, rgba(33, 28, 43, 0.9) 100%);
+  border: 1px solid var(--gold);
+  color: #FFFFFF;
+  font-weight: 600;
+  animation: aiButtonGlow 3s infinite alternate;
+}
+
+@keyframes aiButtonGlow {
+  0% { box-shadow: 0 0 0 0 rgba(197, 160, 74, 0.4); }
+  100% { box-shadow: 0 0 16px 2px rgba(197, 160, 74, 0.6); }
 }
 
 .compare-btn {
-  position: absolute;
-  right: 16px;
-  top: 16px;
   background: rgba(245, 239, 228, 0.94);
   color: var(--plum);
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: var(--radius-full);
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 600;
   user-select: none;
   border: 1px solid var(--line);
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
@@ -1839,6 +1937,110 @@ nav.main a.badge-tag::before {
   color: var(--ivory);
 }
 
+.stage-hint {
+  position: absolute;
+  left: 16px;
+  bottom: 80px;
+  background: rgba(22, 18, 29, 0.8);
+  backdrop-filter: blur(8px);
+  color: var(--gold-pale);
+  font-size: 0.72rem;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  pointer-events: none;
+  border: 1px solid rgba(197, 160, 74, 0.2);
+  z-index: 5;
+}
+
+/* Real-time Specular Silk Sheen Sweep across Stage */
+.atelier-silk-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.08) 48%,
+    rgba(231, 216, 190, 0.22) 50%,
+    rgba(255, 255, 255, 0.06) 52%,
+    transparent 65%
+  );
+  background-size: 260% 260%;
+  animation: studioSilkSweep 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 6;
+  mix-blend-mode: soft-light;
+}
+
+@keyframes studioSilkSweep {
+  0% { background-position: 200% 0%; }
+  50% { background-position: 50% 50%; }
+  100% { background-position: -100% 100%; }
+}
+
+/* AI Generation Progress Overlay */
+.ai-progress-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  background: rgba(22, 18, 29, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.ai-spin-ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(197, 160, 74, 0.2);
+  border-top-color: var(--gold);
+  border-right-color: var(--gold-light);
+  animation: aiSpin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(197, 160, 74, 0.35);
+}
+
+@keyframes aiSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.ai-status-title {
+  font-family: var(--serif-heading);
+  font-size: 1.25rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+
+.ai-status-sub {
+  font-size: 0.84rem;
+  color: rgba(245, 239, 228, 0.8);
+  margin-bottom: 22px;
+  max-width: 320px;
+}
+
+.ai-progress-bar {
+  width: 240px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.ai-bar-inner {
+  width: 20%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transition: width 0.4s ease;
+}
+
+/* Studio Control Panel */
 .studio-panel {
   background: var(--ivory-card);
   border: 1px solid var(--line);
@@ -1907,6 +2109,7 @@ nav.main a.badge-tag::before {
   justify-content: center;
 }
 
+/* Real Photographic Saree Picker Strip */
 .saree-picker-strip {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -1915,27 +2118,73 @@ nav.main a.badge-tag::before {
 }
 
 .saree-picker-strip button {
+  position: relative;
   aspect-ratio: 1;
   border-radius: var(--radius-sm);
   overflow: hidden;
   border: 2px solid transparent;
   transition: all var(--transition-fast);
+  cursor: pointer;
+  padding: 0;
+  background: var(--plum-dark);
 }
 
 .saree-picker-strip button img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.saree-picker-strip button .pick-tag {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(22, 18, 29, 0.88);
+  font-size: 0.58rem;
+  color: var(--gold-pale);
+  padding: 2px 2px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .saree-picker-strip button:hover {
-  transform: scale(1.05);
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.saree-picker-strip button:hover img {
+  transform: scale(1.1);
 }
 
 .saree-picker-strip button.on {
   border-color: var(--gold);
-  transform: scale(1.08);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 0 18px rgba(197, 160, 74, 0.6);
+}
+
+.saree-picker-strip button.on::after {
+  content: "✓";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  background: var(--gold);
+  color: var(--plum);
+  font-size: 0.65rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .studio-slider-row {
@@ -1945,6 +2194,13 @@ nav.main a.badge-tag::before {
   gap: 12px;
   font-size: 0.82rem;
   margin: 12px 0;
+}
+
+/* AI Settings Modal Box */
+.ai-modal-box {
+  max-width: 500px;
+  background: var(--ivory-warm);
+  border: 1px solid rgba(197, 160, 74, 0.4);
 }
 
 input[type=range] {
@@ -2882,13 +3138,19 @@ footer .te-name {
   background: var(--ivory);
   padding: 28px 0;
   transform: translateY(-110%);
-  transition: transform var(--transition);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: transform var(--transition), opacity var(--transition), visibility var(--transition);
   box-shadow: var(--shadow-lg);
   border-bottom: 1px solid var(--line-gold);
 }
 
 .searchbox.on {
   transform: none;
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
 }
 
 .searchbox input {

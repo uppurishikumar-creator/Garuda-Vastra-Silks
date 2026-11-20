@@ -177,11 +177,42 @@ async function runTests() {
   const storeOptionCount = await page.$$eval('#bs option', opts => opts.length);
   console.log(`✓ Bridal consultation stores populated: ${storeOptionCount} locations`);
 
-  // 6. Test Virtual Try-On Studio Controls
+  // 6. Test Virtual Try-On Studio Controls & AI Neural Backend
   console.log('Testing Virtual Try-On Studio...');
   await page.locator('#studio').scrollIntoViewIfNeeded();
   const canvasExists = await page.$eval('#cv', el => !!el);
   console.log(`✓ Studio Canvas initialized: ${canvasExists}`);
+
+  // Test Saree Picker with real photo thumbnails
+  const pickThumbCount = await page.$$eval('#pick button', btns => btns.length);
+  const firstThumbImg = await page.$eval('#pick button img', el => el.src);
+  console.log(`✓ Real Photo Saree Picker rendered: ${pickThumbCount} authentic swatches (first img: ${firstThumbImg.slice(0, 45)}...)`);
+
+  // Switch saree in studio
+  await page.click('#pick button[data-p="2"]');
+  await page.waitForTimeout(300);
+  console.log('✓ Switched to Bridal Kanchipuram in Atelier');
+
+  // Test AI Settings Modal & API Key Storage
+  await page.click('#btnAISettings');
+  await page.waitForTimeout(200);
+  const aiModalOpen = await page.$eval('#aiModal', el => el.classList.contains('on'));
+  console.log(`✓ AI Settings Modal open: ${aiModalOpen}`);
+  await page.fill('#aiApiKeyInput', 'TEST_KEY_GEMINI_12345');
+  await page.click('#btnSaveAIKey');
+  await page.waitForTimeout(200);
+  const savedKey = await page.evaluate(() => localStorage.getItem('gv_tryon_api_key'));
+  console.log(`✓ Custom API Key saved in localStorage: ${savedKey === 'TEST_KEY_GEMINI_12345'}`);
+
+  // Test AI Neural Try-On Generation (Calls /api/tryon)
+  console.log('Testing AI Neural Drape API trigger...');
+  await page.click('#btnAITryon');
+  await page.waitForTimeout(500);
+  const overlayVisible = await page.$eval('#aiOverlay', el => el.style.display !== 'none');
+  console.log(`✓ AI Synthesis Overlay visible: ${overlayVisible}`);
+  await page.waitForTimeout(2000); // Wait for synthesis to complete
+  const overlayClosed = await page.$eval('#aiOverlay', el => el.style.display === 'none');
+  console.log(`✓ AI Synthesis Complete & Overlay closed: ${overlayClosed}`);
 
   // Change scale slider
   await page.fill('#rSize', '110');
@@ -189,6 +220,17 @@ async function runTests() {
   await page.waitForTimeout(200);
   const sizeOutput = await page.$eval('#oSize', el => el.textContent.trim());
   console.log(`✓ Studio scale adjusted to: ${sizeOutput}`);
+
+  // Ensure overlays are closed before studio screenshot
+  await page.evaluate(() => {
+    document.querySelectorAll('.searchbox, .drawer, .modal, .scrim').forEach(el => el.classList.remove('on'));
+  });
+  await page.waitForTimeout(300);
+
+  // Capture Dedicated Studio Screenshot
+  const studioEl = page.locator('#studio');
+  await studioEl.screenshot({ path: path.join(__dirname, 'screenshots', 'haute-couture-studio.png') });
+  console.log('✓ Haute couture studio screenshot captured: screenshots/haute-couture-studio.png');
 
   // 7. Test Showrooms live status
   const storeCards = await page.$$eval('#storeGrid .store-card', cards => cards.length);
