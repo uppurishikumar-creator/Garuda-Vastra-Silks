@@ -1110,19 +1110,20 @@ nav.main a.badge-tag::before {
   position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
+  min-height: 380px;
   aspect-ratio: 3 / 4.2;
   background-color: var(--plum);
   color: #FFFFFF;
   isolation: isolate;
-  border: 1px solid rgba(197, 160, 74, 0.2);
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  border: 1px solid rgba(197, 160, 74, 0.25);
+  transition: transform 0.4s var(--ease-luxury), box-shadow 0.4s var(--ease-luxury), border-color 0.4s var(--ease-luxury);
   cursor: pointer;
   user-select: none;
 }
 
 .weave-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px -10px rgba(33, 28, 43, 0.35);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px -8px rgba(33, 28, 43, 0.45);
   border-color: var(--gold);
 }
 
@@ -3396,7 +3397,7 @@ footer .te-name {
    </div>
    <p class="lead" data-i18n="wP">Sarees are our enduring passion. Explore our curated repertoires from historic looms across India — each weave verified for zari purity and artisan authenticity.</p>
   </div>
-  <div class="weaves-editorial" id="weaveGrid"></div>
+  <div class="weaves-editorial reveal" id="weaveGrid"></div>
  </div>
 </section>
 
@@ -4318,7 +4319,7 @@ function renderWeaves() {
   const el = $("#weaveGrid");
   if (!el) return;
   el.innerHTML = WEAVES.map((w, i) => `
-   <div class="weave-card reveal ${S.weave === w.k ? "active" : ""}" data-weave="${w.k}" tabindex="0" role="button" aria-pressed="${S.weave === w.k}">
+   <div class="weave-card ${S.weave === w.k ? "active" : ""}" data-weave="${w.k}" tabindex="0" role="button" aria-pressed="${S.weave === w.k}">
     <img loading="lazy" src="${w.src}" alt="${w.k} sarees" onerror="fb(this,${w.pal})">
     <div class="content">
      <div class="content-header">
@@ -5616,8 +5617,20 @@ const io = new IntersectionObserver(es => es.forEach(e => {
     e.target.classList.add("in");
     io.unobserve(e.target);
   }
-}), { threshold: 0.1 });
-$$(".reveal").forEach(el => io.observe(el));
+}), { threshold: 0.05, rootMargin: "0px 0px 60px 0px" });
+
+function observeReveals() {
+  $$(".reveal").forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 60 && rect.bottom > -60) {
+      el.classList.add("in");
+    } else {
+      io.observe(el);
+    }
+  });
+}
+window.addEventListener("load", observeReveals);
+window.addEventListener("hashchange", () => setTimeout(observeReveals, 80));
 
 // Sticky header class & bottom nav active tracking
 const topHeader = $("header.top");
@@ -5656,6 +5669,7 @@ render();
 renderStores();
 renderPick();
 drawMannequin();
+observeReveals();
 
 // Restore language if stored
 try {

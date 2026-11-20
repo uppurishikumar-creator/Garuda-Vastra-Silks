@@ -1093,19 +1093,20 @@ nav.main a.badge-tag::before {
   position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
+  min-height: 380px;
   aspect-ratio: 3 / 4.2;
   background-color: var(--plum);
   color: #FFFFFF;
   isolation: isolate;
-  border: 1px solid rgba(197, 160, 74, 0.2);
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  border: 1px solid rgba(197, 160, 74, 0.25);
+  transition: transform 0.4s var(--ease-luxury), box-shadow 0.4s var(--ease-luxury), border-color 0.4s var(--ease-luxury);
   cursor: pointer;
   user-select: none;
 }
 
 .weave-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px -10px rgba(33, 28, 43, 0.35);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px -8px rgba(33, 28, 43, 0.45);
   border-color: var(--gold);
 }
 

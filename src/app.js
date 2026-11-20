@@ -225,7 +225,7 @@ function renderWeaves() {
   const el = $("#weaveGrid");
   if (!el) return;
   el.innerHTML = WEAVES.map((w, i) => `
-   <div class="weave-card reveal ${S.weave === w.k ? "active" : ""}" data-weave="${w.k}" tabindex="0" role="button" aria-pressed="${S.weave === w.k}">
+   <div class="weave-card ${S.weave === w.k ? "active" : ""}" data-weave="${w.k}" tabindex="0" role="button" aria-pressed="${S.weave === w.k}">
     <img loading="lazy" src="${w.src}" alt="${w.k} sarees" onerror="fb(this,${w.pal})">
     <div class="content">
      <div class="content-header">
@@ -1523,8 +1523,20 @@ const io = new IntersectionObserver(es => es.forEach(e => {
     e.target.classList.add("in");
     io.unobserve(e.target);
   }
-}), { threshold: 0.1 });
-$$(".reveal").forEach(el => io.observe(el));
+}), { threshold: 0.05, rootMargin: "0px 0px 60px 0px" });
+
+function observeReveals() {
+  $$(".reveal").forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 60 && rect.bottom > -60) {
+      el.classList.add("in");
+    } else {
+      io.observe(el);
+    }
+  });
+}
+window.addEventListener("load", observeReveals);
+window.addEventListener("hashchange", () => setTimeout(observeReveals, 80));
 
 // Sticky header class & bottom nav active tracking
 const topHeader = $("header.top");
@@ -1563,6 +1575,7 @@ render();
 renderStores();
 renderPick();
 drawMannequin();
+observeReveals();
 
 // Restore language if stored
 try {
