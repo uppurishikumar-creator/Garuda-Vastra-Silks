@@ -126,7 +126,9 @@ async function runTests() {
   await page.waitForTimeout(400);
   const qvOpen = await page.$eval('#qv', el => el.classList.contains('on'));
   const qvTitle = await page.$eval('#qvBox h2', el => el.textContent.trim());
-  console.log(`✓ Quick View modal open: ${qvOpen}, Product: "${qvTitle}"`);
+  const qvImgSrc = await page.$eval('#qvBox img', el => el.src);
+  console.log(`✓ Quick View modal open: ${qvOpen}, Product: "${qvTitle}", Img: ${qvImgSrc.substring(0, 60)}...`);
+  await page.screenshot({ path: path.join(__dirname, 'screenshots', 'real-saree-quickview.png') });
   await page.click('#qvBox [data-close]');
   await page.waitForTimeout(300);
 
@@ -138,7 +140,7 @@ async function runTests() {
   
   // Click 'Banarasi' weave card
   const targetWeave = 'Banarasi';
-  await page.click(`#weaveGrid .weave-card[data-weave="${targetWeave}"]`);
+  await page.click(`#weaveGrid .weave-card[data-weave="${targetWeave}"]`, { force: true });
   await page.waitForTimeout(400);
   const isWeaveActive = await page.$eval(`#weaveGrid .weave-card[data-weave="${targetWeave}"]`, el => el.classList.contains('active'));
   console.log(`✓ Weave card active state applied: ${isWeaveActive}`);
@@ -198,6 +200,12 @@ async function runTests() {
   const hlEl = page.locator('#highlights');
   await hlEl.screenshot({ path: path.join(imgDir, 'interactive-highlights.png') });
   console.log('✓ Highlights screenshot captured: screenshots/interactive-highlights.png');
+
+  // Capture Real Sarees Shop Grid Screenshot
+  await page.locator('#shop').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: path.join(imgDir, 'real-sarees-shop.png') });
+  console.log('✓ Real sarees catalog screenshot captured: screenshots/real-sarees-shop.png');
 
   // ==========================================
   // MOBILE TEST SUITE

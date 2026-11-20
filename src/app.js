@@ -160,14 +160,34 @@ const P = [
   { id: 12, n: "Contemporary Tissue Organza", c: "Blush Pink", w: "Contemporary", o: "Celebration", col: "Pink", pr: 9800, pal: 11 },
   { id: 13, n: "Narayanpet Silk", c: "Maroon with Mustard Border", w: "Handloom", o: "Festive", col: "Red", pr: 5600, pal: 12, tag: "TELANGANA WEAVE" }
 ];
-P.forEach(p => p.img = sareeArt(p.pal));
+
+// Authentic real silk saree photography matching each weave and color palette
+const SAREE_REAL_PHOTOS = {
+  1: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80",
+  2: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
+  3: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Kanchipuram_sarees_%287642282772%29.jpg/960px-Kanchipuram_sarees_%287642282772%29.jpg",
+  4: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Kanchipuram_sarees_%287642285396%29.jpg/960px-Kanchipuram_sarees_%287642285396%29.jpg",
+  5: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+  6: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
+  7: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Saree_Weaving_by_Handloom.jpg/960px-Saree_Weaving_by_Handloom.jpg",
+  8: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Pochampalli_Ikat_saree.jpg/960px-Pochampalli_Ikat_saree.jpg",
+  9: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Sari.jpg/960px-Sari.jpg",
+  10: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/KanchipuramSlik_Saree.JPG/960px-KanchipuramSlik_Saree.JPG",
+  11: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=800&q=80",
+  12: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=800&q=80",
+  13: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Pochampalli_Ikat_saree.jpg/960px-Pochampalli_Ikat_saree.jpg"
+};
+
+P.forEach(p => {
+  p.img = SAREE_REAL_PHOTOS[p.id] || sareeArt(p.pal);
+});
 
 const C1 = "__C1__", C2 = "__C2__";
 const WEAVES = [
-  { k: "Kanchipuram", d: "Temple borders, contrast pallus and pure zari — the undisputed queen of South Indian handloom.", src: C1 + "48a76f92d63b844992f404965bfa0683.webp", pal: 0 },
-  { k: "Banarasi", d: "Intricate metallic brocades and imperial floral jaals hand-woven on Varanasi looms.", src: C2 + "03a4b362-0555-4cde-9e65-d2a473d7e690.png", pal: 2 },
-  { k: "Soft Silk", d: "Featherlight drape with luminous sheen — pure silk made effortless for celebrations.", src: C2 + "14c73c19-e81e-4209-a353-d05a2d029b40.png", pal: 4 },
-  { k: "Handloom", d: "Gadwal, Pochampally Ikat, Narayanpet and artisan breathing cottons from regional looms.", src: C2 + "7f5e4bab-c23b-49f0-b27c-e903681bd934.png", pal: 7 }
+  { k: "Kanchipuram", d: "Temple borders, contrast pallus and pure zari — the undisputed queen of South Indian handloom.", src: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80", pal: 0 },
+  { k: "Banarasi", d: "Intricate metallic brocades and imperial floral jaals hand-woven on Varanasi looms.", src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Kanchipuram_sarees_%287642282772%29.jpg/960px-Kanchipuram_sarees_%287642282772%29.jpg", pal: 2 },
+  { k: "Soft Silk", d: "Featherlight drape with luminous sheen — pure silk made effortless for celebrations.", src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Kanchipuram_sarees_%287642285396%29.jpg/960px-Kanchipuram_sarees_%287642285396%29.jpg", pal: 4 },
+  { k: "Handloom", d: "Gadwal, Pochampally Ikat, Narayanpet and artisan breathing cottons from regional looms.", src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Pochampalli_Ikat_saree.jpg/960px-Pochampalli_Ikat_saree.jpg", pal: 7 }
 ];
 
 const STORES = [
@@ -227,6 +247,7 @@ function renderWeaves() {
   el.innerHTML = WEAVES.map((w, i) => `
    <div class="weave-card ${S.weave === w.k ? "active" : ""}" data-weave="${w.k}" tabindex="0" role="button" aria-pressed="${S.weave === w.k}">
     <img loading="lazy" src="${w.src}" alt="${w.k} sarees" onerror="fb(this,${w.pal})">
+    <div class="weave-sheen" aria-hidden="true"></div>
     <div class="content">
      <div class="content-header">
       <span class="num">0${i + 1} · REPERTOIRE</span>
@@ -504,7 +525,8 @@ function list() {
 function card(p) {
   return `<article class="card">
    <div class="media" data-qv="${p.id}">
-    <img loading="lazy" src="${p.img}" alt="${p.n}, ${p.c}">
+    <img loading="lazy" src="${p.img}" alt="${p.n}, ${p.c}" class="saree-photo" onerror="fb(this,${p.pal})">
+    <div class="silk-sheen" aria-hidden="true"></div>
     ${p.tag ? `<span class="tag">${p.tag}</span>` : ""}
     <button class="heart-btn ${S.wl.has(p.id) ? "on" : ""}" data-h="${p.id}" aria-label="Save ${p.n} to wishlist">
      <svg class="ico"><use href="#i-heart"/></svg>
@@ -753,7 +775,7 @@ function openQV(id) {
    <button class="close-btn" data-close aria-label="Close modal">
     <svg class="ico"><use href="#i-x"/></svg>
    </button>
-   <img src="${sareeArt(p.pal, 900, 1100)}" alt="${p.n}">
+   <img src="${p.img}" alt="${p.n}" class="qv-photo" onerror="fb(this,${p.pal})">
    <div class="product-info">
     <span class="eyebrow">${p.w} · REF GVS-${String(p.id).padStart(3, "0")}</span>
     <h2 style="font-size:2.1rem">${p.n}</h2>
