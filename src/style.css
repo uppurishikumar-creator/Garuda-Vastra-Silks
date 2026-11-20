@@ -695,23 +695,17 @@ nav.main a.badge-tag::before {
 }
 
 /* ==========================================================================
-   FLOATING SILK SAREE STUDIO STAGE
+   HERO EDITORIAL EXPERIENCE: FULL-BLEED LIVING SILK SAREE
    ========================================================================== */
 
 .hero-studio-stage {
   position: relative;
-  background: radial-gradient(
-    ellipse 75% 65% at 50% 36%, 
-    rgba(197, 160, 74, 0.16) 0%, 
-    rgba(33, 28, 43, 0.6) 48%, 
-    rgba(22, 18, 29, 0.98) 100%
-  );
+  background: var(--plum);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
   overflow: hidden;
-  perspective: 1200px;
-  min-height: 520px;
+  min-height: 560px;
   user-select: none;
 }
 
@@ -720,100 +714,103 @@ nav.main a.badge-tag::before {
   position: absolute;
   top: 8%;
   left: 20%;
-  right: 20%;
-  height: 40%;
-  background: radial-gradient(ellipse at center, rgba(231, 216, 190, 0.14) 0%, transparent 70%);
-  filter: blur(40px);
+  right: 15%;
+  height: 50%;
+  background: radial-gradient(ellipse at center, rgba(197, 160, 74, 0.16) 0%, transparent 70%);
+  filter: blur(45px);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Floating Saree 3D Rig */
-.floating-saree-rig {
-  position: relative;
-  width: min(440px, 86%);
-  aspect-ratio: 3 / 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-style: preserve-3d;
-  transition: transform 0.25s cubic-bezier(0.2, 0, 0.2, 1);
-  z-index: 2;
-}
-
-/* Dynamic Floor Shadow */
-.saree-floor-shadow {
+/* Full-Bleed Editorial Stage Container (Completely fills right half) */
+.hero-editorial-bleed {
   position: absolute;
-  bottom: -28px;
-  left: 12%;
-  right: 12%;
-  height: 38px;
-  background: radial-gradient(ellipse at center, rgba(8, 6, 12, 0.8) 0%, rgba(8, 6, 12, 0) 70%);
-  filter: blur(14px);
-  border-radius: 50%;
-  transform-origin: center;
-  animation: shadowFloat 6s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 1;
-}
-
-@keyframes shadowFloat {
-  0% {
-    transform: scale(0.82);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1.18);
-    opacity: 0.9;
-  }
-}
-
-/* Floating Saree Body */
-.floating-saree-container {
-  position: relative;
+  inset: 0;
   width: 100%;
   height: 100%;
-  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 25px 60px -15px rgba(8, 6, 12, 0.65), 
-              0 0 45px -8px rgba(197, 160, 74, 0.25);
-  border: 1px solid rgba(197, 160, 74, 0.4);
-  animation: sareeLevitate 6s ease-in-out infinite alternate;
-  transform-origin: center center;
   z-index: 2;
-  isolation: isolate;
-  background-color: var(--plum);
+  will-change: transform;
 }
 
-@keyframes sareeLevitate {
+/* Atmospheric Multi-stop Gradient Vignette - Blends image seamlessly into background! */
+.hero-editorial-bleed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: 
+    /* Left edge feathering into the Plum text column */
+    linear-gradient(to right, 
+      #211C2B 0%, 
+      rgba(33, 28, 43, 0.98) 6%, 
+      rgba(33, 28, 43, 0.75) 20%, 
+      rgba(33, 28, 43, 0.22) 42%, 
+      transparent 64%
+    ),
+    /* Bottom edge feathering into the section line */
+    linear-gradient(to top, 
+      #211C2B 0%, 
+      rgba(33, 28, 43, 0.85) 6%, 
+      transparent 20%
+    ),
+    /* Top edge feathering */
+    linear-gradient(to bottom, 
+      #211C2B 0%, 
+      rgba(33, 28, 43, 0.45) 5%, 
+      transparent 16%
+    ),
+    /* Radial studio spotlight & vignette */
+    radial-gradient(ellipse 85% 85% at 65% 42%, 
+      transparent 38%, 
+      rgba(33, 28, 43, 0.25) 68%, 
+      rgba(21, 17, 28, 0.85) 100%
+    );
+  pointer-events: none;
+}
+
+/* Living Editorial Saree Photography */
+.hero-editorial-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  transform-origin: 65% 40%;
+  animation: heroFabricBreathe 14s ease-in-out infinite alternate;
+  transition: opacity 0.5s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+  filter: contrast(1.03) brightness(0.98);
+}
+
+@keyframes heroFabricBreathe {
   0% {
-    transform: translateY(-16px) rotate(-1deg);
+    transform: scale(1.0) translateY(0px) rotate(0deg);
   }
   50% {
-    transform: translateY(0px) rotate(0.4deg);
+    transform: scale(1.035) translateY(-6px) rotate(0.2deg);
   }
   100% {
-    transform: translateY(14px) rotate(1.2deg);
+    transform: scale(1.015) translateY(4px) rotate(-0.2deg);
   }
 }
 
-/* Silk Specular Shimmer */
+/* Silk Specular Shimmer Sweep */
 .silk-specular-shimmer {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     115deg, 
-    transparent 30%, 
-    rgba(255, 255, 255, 0.16) 48%, 
-    rgba(245, 239, 228, 0.35) 50%, 
-    rgba(255, 255, 255, 0.14) 52%, 
-    transparent 68%
+    transparent 25%, 
+    rgba(255, 255, 255, 0.12) 46%, 
+    rgba(231, 216, 190, 0.32) 50%, 
+    rgba(255, 255, 255, 0.1) 54%, 
+    transparent 72%
   );
-  background-size: 250% 250%;
-  animation: silkShimmer 8s ease-in-out infinite;
+  background-size: 260% 260%;
+  animation: silkShimmer 9s ease-in-out infinite;
   pointer-events: none;
-  z-index: 3;
-  mix-blend-mode: overlay;
+  z-index: 4;
+  mix-blend-mode: soft-light;
 }
 
 @keyframes silkShimmer {
@@ -828,12 +825,32 @@ nav.main a.badge-tag::before {
   }
 }
 
-.floating-saree-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 25%;
-  transition: opacity 0.4s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+/* Editorial Tag in Bottom Right */
+.hero-editorial-tag {
+  position: absolute;
+  bottom: 24px;
+  right: 28px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  font-weight: 500;
+  background: rgba(22, 18, 29, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(197, 160, 74, 0.3);
+  pointer-events: none;
+}
+
+.hero-editorial-tag .tag-motif {
+  font-size: 0.65rem;
+  color: var(--gold);
 }
 
 /* Ambient Floating Zari Dust Particles */
@@ -940,23 +957,68 @@ nav.main a.badge-tag::before {
   font-weight: 600;
 }
 
-/* Floating Showroom Status Card inside Hero */
-.hero-store-pill {
-  position: absolute;
-  bottom: 28px;
+/* ==========================================================================
+   TIMED SHOWROOM CONCIERGE TOAST (Slides in after 30 seconds)
+   ========================================================================== */
+
+.showroom-toast {
+  position: fixed;
+  bottom: 92px;
   right: 28px;
-  z-index: 4;
-  background: rgba(33, 28, 43, 0.9);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(197, 160, 74, 0.4);
+  width: min(350px, calc(100vw - 44px));
+  z-index: 998;
+  background: rgba(26, 21, 34, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(197, 160, 74, 0.45);
   border-radius: var(--radius-md);
-  padding: 16px 22px;
-  max-width: 330px;
-  box-shadow: var(--shadow-float);
+  padding: 18px 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 25px rgba(197, 160, 74, 0.15);
+  transform: translateY(120%) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.65s ease, 
+              box-shadow 0.3s ease;
 }
 
-.hero-store-pill .live-tag {
+.showroom-toast.visible {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toast-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(197, 160, 74, 0.25);
+  border-radius: 50%;
+  color: var(--gold-light);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+  z-index: 2;
+}
+
+.toast-close-btn:hover {
+  background: rgba(197, 160, 74, 0.3);
+  color: #FFFFFF;
+  transform: scale(1.08);
+}
+
+.toast-close-btn .ico {
+  width: 14px;
+  height: 14px;
+}
+
+.showroom-toast .live-tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -965,33 +1027,43 @@ nav.main a.badge-tag::before {
   text-transform: uppercase;
   color: var(--gold-light);
   font-weight: 600;
+  margin-bottom: 6px;
 }
 
-.hero-store-pill .dot {
+.showroom-toast .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #34D399;
   box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
-  animation: pulse 2s infinite;
+  animation: toastPulse 2s infinite;
 }
 
-@keyframes pulse {
+@keyframes toastPulse {
   0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); }
+  70% { box-shadow: 0 0 0 8px rgba(52, 211, 153, 0); }
   100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
 }
 
-.hero-store-pill h4 {
+.showroom-toast h4 {
   color: #FFFFFF;
-  font-size: 1.2rem;
-  margin: 6px 0 4px;
+  font-size: 1.15rem;
+  font-family: var(--serif-heading);
+  margin: 4px 0 6px;
+  letter-spacing: -0.01em;
 }
 
-.hero-store-pill p {
+.showroom-toast p {
   font-size: 0.82rem;
-  color: rgba(245, 239, 228, 0.75);
-  margin-bottom: 12px;
+  color: rgba(245, 239, 228, 0.78);
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.toast-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 /* ==========================================================================
@@ -2991,11 +3063,22 @@ footer .te-name {
     flex-direction: column-reverse;
   }
   .hero-studio-stage {
-    min-height: 380px;
-    padding: 30px 16px;
+    min-height: 420px;
+    padding: 0;
   }
-  .floating-saree-rig {
-    width: min(290px, 80%);
+  .hero-editorial-bleed::before {
+    background: 
+      linear-gradient(to top, 
+        #211C2B 0%, 
+        rgba(33, 28, 43, 0.92) 8%, 
+        transparent 32%
+      ),
+      linear-gradient(to bottom, 
+        #211C2B 0%, 
+        rgba(33, 28, 43, 0.85) 6%, 
+        transparent 25%
+      ),
+      radial-gradient(circle at center, transparent 45%, rgba(21, 17, 28, 0.75) 100%);
   }
   .hero-silk-switcher {
     top: 16px;
@@ -3011,11 +3094,12 @@ footer .te-name {
   .hero-ctas .btn {
     width: 100%;
   }
-  .hero-store-pill {
-    position: static;
-    margin: 20px auto 0;
-    width: 100%;
-    max-width: 100%;
+  .showroom-toast {
+    left: 14px;
+    right: 14px;
+    bottom: 84px;
+    width: auto;
+    max-width: calc(100% - 28px);
   }
   
   /* Highlights row becomes scrollable on mobile */

@@ -33,7 +33,9 @@ async function runTests() {
     pageErrors.push(`[Page Error]: ${err.message}`);
   });
 
-  await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+  await page.goto('http://localhost:3000', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(1000);
+  await page.screenshot({ path: path.join(__dirname, 'screenshots', 'hero-fullbleed-initial.png') });
 
   // 1. Check Title & Hero Headings
   const title = await page.title();
@@ -42,14 +44,27 @@ async function runTests() {
   const heroHeading = await page.$eval('.hero-editorial h1', el => el.textContent.trim());
   console.log(`✓ Hero Headline: "${heroHeading}"`);
 
-  // 1b. Test Floating Saree Rig & Interactive Switcher
-  console.log('Testing Floating Saree Stage & Rig...');
+  // 1b. Test Full-Bleed Editorial Saree Stage & Interactive Switcher
+  console.log('Testing Full-Bleed Editorial Saree Stage & Switcher...');
   const stageExists = await page.$eval('#heroStudioStage', el => !!el);
   const sareeRigExists = await page.$eval('#sareeRig', el => !!el);
-  const sareeShadowExists = await page.$eval('#sareeFloorShadow', el => !!el);
   const sareeImgSrc = await page.$eval('#heroFloatingImg', el => el.src);
-  console.log(`✓ Floating Saree Rig loaded: stage=${stageExists}, rig=${sareeRigExists}, shadow=${sareeShadowExists}`);
-  console.log(`✓ Initial Floating Saree Image: ${sareeImgSrc}`);
+  console.log(`✓ Editorial Saree Canvas loaded: stage=${stageExists}, canvas=${sareeRigExists}`);
+  console.log(`✓ Initial Editorial Saree Image: ${sareeImgSrc}`);
+
+  // Test Showroom Toast
+  console.log('Testing Showroom Concierge Toast...');
+  const toastHidden = await page.$eval('#showroomToast', el => !el.classList.contains('visible'));
+  console.log(`✓ Showroom Toast starts hidden: ${toastHidden}`);
+  await page.evaluate(() => window.showShowroomToast());
+  await page.waitForTimeout(300);
+  const toastVisible = await page.$eval('#showroomToast', el => el.classList.contains('visible'));
+  console.log(`✓ Showroom Toast becomes visible: ${toastVisible}`);
+  await page.screenshot({ path: path.join(__dirname, 'screenshots', 'showroom-toast-open.png') });
+  await page.click('#toastCloseBtn');
+  await page.waitForTimeout(300);
+  const toastClosed = await page.$eval('#showroomToast', el => !el.classList.contains('visible'));
+  console.log(`✓ Showroom Toast close button works: ${toastClosed}`);
 
   // Test Saree Switcher Chip Interaction
   const chips = await page.$$eval('#heroSilkSwitcher .switcher-chip', els => els.map(e => e.getAttribute('title')));
@@ -218,7 +233,8 @@ async function runTests() {
     hasTouch: true
   });
   const mPage = await mobileContext.newPage();
-  await mPage.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+  await mPage.goto('http://localhost:3000', { waitUntil: 'domcontentloaded' });
+  await mPage.waitForTimeout(1000);
 
   // Test Mobile Navigation Drawer
   await mPage.click('#burger');

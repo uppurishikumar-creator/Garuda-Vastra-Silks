@@ -334,32 +334,35 @@ function initHighlights() {
   }
 }
 
-/* ---------- hero floating silk saree physics & switcher (Phase 3) ---------- */
+/* ---------- hero full-bleed living silk saree & weave switcher ---------- */
 const HERO_SAREES = [
   {
-    src: "__C1__sea_green_kanchipattu_silk_saree_for_indian_weddings_with_contrast_weaving_border_1-lTvsK.jpg",
-    pal: 0,
-    alt: "Sea Green & Maroon Kanchipuram Silk Saree"
-  },
-  {
-    src: "__C2__a8da42bd-853c-45f7-9d01-9ddc5f25dcee.png",
+    src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1600&q=85",
     pal: 1,
-    alt: "Crimson & Antique Gold Bridal Kanchipuram Pattu"
+    alt: "Garuda Vastra Crimson & Antique Gold Bridal Kanchipuram Pattu",
+    tag: "BRIDAL PATTU · ORNATE GOLD ZARI BROCADE"
   },
   {
-    src: "__C2__03a4b362-0555-4cde-9e65-d2a473d7e690.png",
+    src: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1600&q=85",
+    pal: 0,
+    alt: "Garuda Vastra Royal Emerald & Gold Kanchipuram Silk Saree",
+    tag: "HEIRLOOM KANCHIPURAM · PURE ZARI SILK"
+  },
+  {
+    src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Kanchipuram_sarees_%287642282772%29.jpg/960px-Kanchipuram_sarees_%287642282772%29.jpg",
     pal: 2,
-    alt: "Royal Blue Banarasi Brocade"
+    alt: "Garuda Vastra Royal Blue Banarasi Brocade",
+    tag: "BANARASI KATAN · ROYAL BROCADE"
   }
 ];
 
 function initFloatingSaree() {
   const stage = $("#heroStudioStage");
-  const rig = $("#sareeRig");
   const img = $("#heroFloatingImg");
+  const tagText = $("#heroEditorialTag .tag-text");
   
-  // Mouse pointer 3D parallax on desktop
-  if (stage && rig && window.matchMedia("(min-width: 900px)").matches) {
+  // Subtle 3D mouse parallax on desktop (fluid, luxury feel)
+  if (stage && img && window.matchMedia("(min-width: 900px)").matches) {
     let mouseX = 0, mouseY = 0;
     let targetX = 0, targetY = 0;
     
@@ -367,8 +370,8 @@ function initFloatingSaree() {
       const rect = stage.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
-      targetX = -y * 14;
-      targetY = x * 14;
+      targetX = -y * 8;
+      targetY = x * 8;
     });
     
     stage.addEventListener("mouseleave", () => {
@@ -377,10 +380,10 @@ function initFloatingSaree() {
     });
 
     function updateParallax() {
-      mouseX += (targetX - mouseX) * 0.1;
-      mouseY += (targetY - mouseY) * 0.1;
-      if (rig) {
-        rig.style.transform = `perspective(1200px) rotateX(${mouseX.toFixed(2)}deg) rotateY(${mouseY.toFixed(2)}deg) translateZ(8px)`;
+      mouseX += (targetX - mouseX) * 0.08;
+      mouseY += (targetY - mouseY) * 0.08;
+      if (img) {
+        img.style.transform = `scale(1.02) translate3d(${targetY.toFixed(1)}px, ${targetX.toFixed(1)}px, 0)`;
       }
       requestAnimationFrame(updateParallax);
     }
@@ -397,19 +400,65 @@ function initFloatingSaree() {
       const saree = HERO_SAREES[idx];
       if (saree && img) {
         img.style.opacity = "0.2";
-        img.style.transform = "scale(0.96)";
+        img.style.transform = "scale(0.98)";
         setTimeout(() => {
           img.src = saree.src;
           img.alt = saree.alt;
           img.onerror = () => fb(img, saree.pal);
+          if (tagText && saree.tag) {
+            tagText.textContent = saree.tag;
+          }
           img.style.opacity = "1";
           img.style.transform = "scale(1)";
         }, 220);
-        toast(`Displaying ${chip.querySelector(".name").textContent}`);
+        toast(`Previewing ${chip.querySelector(".name").textContent}`);
       }
     });
   });
 }
+
+/* ---------- timed showroom concierge toast (Slides in after 30 seconds) ---------- */
+function initShowroomToast() {
+  const toastEl = $("#showroomToast");
+  if (!toastEl) return;
+  
+  if (sessionStorage.getItem("gv_showroom_toast_closed") === "1") return;
+  
+  // 30 seconds delay (or instant on dev parameter ?toast=now)
+  const isImmediate = window.location.search.includes("toast=now");
+  const delayMs = isImmediate ? 150 : 30000;
+  
+  window._showroomTimer = setTimeout(() => {
+    if (sessionStorage.getItem("gv_showroom_toast_closed") !== "1") {
+      toastEl.classList.add("visible");
+      toastEl.setAttribute("aria-hidden", "false");
+    }
+  }, delayMs);
+  
+  const closeBtn = $("#toastCloseBtn");
+  if (closeBtn) {
+    closeBtn.onclick = (e) => {
+      e.preventDefault();
+      closeShowroomToast();
+    };
+  }
+}
+
+function closeShowroomToast() {
+  const toastEl = $("#showroomToast");
+  if (!toastEl) return;
+  toastEl.classList.remove("visible");
+  toastEl.setAttribute("aria-hidden", "true");
+  sessionStorage.setItem("gv_showroom_toast_closed", "1");
+}
+window.closeShowroomToast = closeShowroomToast;
+window.showShowroomToast = function() {
+  const toastEl = $("#showroomToast");
+  if (toastEl) {
+    toastEl.classList.add("visible");
+    toastEl.setAttribute("aria-hidden", "false");
+  }
+};
 
 /* ---------- multi-attribute catalogue filtering ---------- */
 const BUD = {
@@ -1592,6 +1641,7 @@ window.addEventListener("scroll", () => {
 renderWeaves();
 initHighlights();
 initFloatingSaree();
+initShowroomToast();
 renderFilters();
 render();
 renderStores();

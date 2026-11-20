@@ -143,8 +143,8 @@
    </div>
   </div>
   
-  <!-- Right Studio Stage: Floating Silk Saree Experience -->
-  <div class="hero-media hero-studio-stage" id="heroStudioStage" aria-label="Floating silk saree luxury display">
+  <!-- Right Studio Stage: Full-Bleed Editorial Living Silk Saree Experience -->
+  <div class="hero-media hero-studio-stage" id="heroStudioStage" aria-label="Living silk saree luxury editorial display">
    <!-- Ambient Luxury Studio Lighting & Zari Dust -->
    <div class="studio-lighting"></div>
    <div class="floating-zari-dust" aria-hidden="true">
@@ -160,13 +160,13 @@
    <div class="hero-silk-switcher" id="heroSilkSwitcher">
     <span class="switcher-label">PREVIEW WEAVE</span>
     <div class="switcher-chips">
-     <button class="switcher-chip on" data-saree-idx="0" title="Sea Green & Maroon Kanchipuram" aria-label="Sea Green Kanchipuram">
-      <span class="swatch" style="background: linear-gradient(135deg, #1f7a6b 50%, #8e1b22 50%);"></span>
-      <span class="name">Kanchipuram</span>
-     </button>
-     <button class="switcher-chip" data-saree-idx="1" title="Crimson & Antique Gold Bridal Pattu" aria-label="Crimson Bridal Pattu">
+     <button class="switcher-chip on" data-saree-idx="0" title="Crimson & Antique Gold Bridal Pattu" aria-label="Crimson Bridal Pattu">
       <span class="swatch" style="background: linear-gradient(135deg, #8e1b22 50%, #C5A04A 50%);"></span>
       <span class="name">Bridal Pattu</span>
+     </button>
+     <button class="switcher-chip" data-saree-idx="1" title="Royal Emerald & Gold Kanchipuram" aria-label="Emerald Kanchipuram">
+      <span class="swatch" style="background: linear-gradient(135deg, #1f7a6b 50%, #C5A04A 50%);"></span>
+      <span class="name">Kanchipuram</span>
      </button>
      <button class="switcher-chip" data-saree-idx="2" title="Royal Blue Banarasi Brocade" aria-label="Royal Blue Banarasi">
       <span class="swatch" style="background: linear-gradient(135deg, #1c2f6e 50%, #C5A04A 50%);"></span>
@@ -175,36 +175,23 @@
     </div>
    </div>
    
-   <!-- 3D Perspective Floating Saree Rig -->
-   <div class="floating-saree-rig" id="sareeRig">
-    <!-- Dynamic Contact Shadow -->
-    <div class="saree-floor-shadow" id="sareeFloorShadow"></div>
+   <!-- Full-Bleed Editorial Canvas (Seamlessly Fills Stage & Melts Into Background) -->
+   <div class="hero-editorial-bleed" id="sareeRig">
+    <!-- Specular Silk Shimmer Overlay -->
+    <div class="silk-specular-shimmer" aria-hidden="true"></div>
     
-    <!-- Floating Saree Body -->
-    <div class="floating-saree-container" id="floatingSaree">
-     <!-- Silk Specular Shimmer -->
-     <div class="silk-specular-shimmer" aria-hidden="true"></div>
-     
-     <!-- Authentic Silk Saree Photography -->
-     <img class="floating-saree-img" id="heroFloatingImg" 
-          src="__C1__sea_green_kanchipattu_silk_saree_for_indian_weddings_with_contrast_weaving_border_1-lTvsK.jpg" 
-          alt="Floating Kanchipuram Silk Saree in Luxury Studio" 
-          onerror="fb(this,0)">
+    <!-- Authentic Living Silk Saree Editorial Photography -->
+    <img class="hero-editorial-img" id="heroFloatingImg" 
+         src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1600&q=85" 
+         alt="Garuda Vastra Heirloom Bridal Pattu Silk Saree" 
+         onerror="fb(this,1)">
+         
+    <!-- Editorial Watermark / Caption -->
+    <div class="hero-editorial-tag" id="heroEditorialTag" aria-hidden="true">
+     <span class="tag-motif">❖</span>
+     <span class="tag-text">BRIDAL PATTU · ORNATE GOLD ZARI BROCADE</span>
     </div>
    </div>
-   
-   <!-- Showroom Live Status Card -->
-   <aside class="hero-store-pill">
-    <span class="live-tag"><i class="dot"></i><span id="heroOpen">OPEN NOW · BHUVANAGIRI FLAGSHIP</span></span>
-    <h4 data-i18n="hcH">Bhuvanagiri Showroom</h4>
-    <p data-i18n="hcP">Three floors of bridal silks and family collections, beside Govt. Junior College, Medikuntapally.</p>
-    <div style="display:flex;gap:10px">
-     <a class="btn btn-gold btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Garuda+Vastra+Silks+Bhuvanagiri+Telangana">
-      <svg class="ico"><use href="#i-pin"/></svg><span data-i18n="dir">Directions</span>
-     </a>
-     <a class="btn btn-outline-gold btn-sm" href="#stores" data-i18n="more">All Stores</a>
-    </div>
-   </aside>
   </div>
  </div>
 </section>
@@ -963,3 +950,21 @@
 
 <!-- Toast Pill Notification -->
 <div class="toast" id="toast"></div>
+
+<!-- Timed Showroom Concierge Notification (Slides in after 30 seconds) -->
+<aside class="showroom-toast" id="showroomToast" role="dialog" aria-label="Showroom information notification" aria-hidden="true">
+ <button class="toast-close-btn" id="toastCloseBtn" aria-label="Close notification" title="Close" onclick="closeShowroomToast()">
+  <svg class="ico"><use href="#i-x"/></svg>
+ </button>
+ <div class="showroom-toast-content">
+  <span class="live-tag"><i class="dot"></i><span id="heroOpen">OPEN NOW · BHUVANAGIRI FLAGSHIP</span></span>
+  <h4 data-i18n="hcH">Bhuvanagiri Showroom</h4>
+  <p data-i18n="hcP">Three floors of bridal silks and family collections, beside Govt. Junior College, Medikuntapally.</p>
+  <div class="toast-actions">
+   <a class="btn btn-gold btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Garuda+Vastra+Silks+Bhuvanagiri+Telangana">
+    <svg class="ico"><use href="#i-pin"/></svg><span data-i18n="dir">Directions</span>
+   </a>
+   <a class="btn btn-outline-gold btn-sm" href="#stores" data-i18n="more" onclick="closeShowroomToast()">All Stores</a>
+  </div>
+ </div>
+</aside>
