@@ -1,0 +1,965 @@
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1Z"/></symbol>
+ <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+ <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.9 7.6-4.3M8.2 13.1l7.6 4.3"/></symbol>
+ <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+ <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.2 3 4.5 6.6 4.5c2 0 3.4 1.1 4.4 2.5 1-1.4 2.4-2.5 4.4-2.5 3.6 0 5.4 3.7 3.8 6.9C19 15.6 12 20 12 20Z"/></symbol>
+ <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h12"/></symbol>
+ <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+ <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+ <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+ <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+ <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+ <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7Z"/></symbol>
+ <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></symbol>
+ <symbol id="i-hand" viewBox="0 0 24 24"><path d="M7 11V6a1.5 1.5 0 0 1 3 0v4M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10V5.5a1.5 1.5 0 0 1 3 0V12M16 9a1.5 1.5 0 0 1 3 0v5a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-2.7L3.5 14a1.5 1.5 0 0 1 2.4-1.8L7 13.5"/></symbol>
+ <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></symbol>
+ <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+ <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+ <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+ <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9M12 8v13M12 8S10 3 7.5 4.5 9 8 12 8Zm0 0s2-5 4.5-3.5S15 8 12 8Z"/></symbol>
+ <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></symbol>
+ <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></symbol>
+ <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3Z" fill="currentColor"/></symbol>
+ <symbol id="i-fb" viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H7v4h3v7h4v-7h3l1-4h-4V8Z"/></symbol>
+ <symbol id="i-filter" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></symbol>
+ <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+</svg>
+
+<!-- Announcement Strip -->
+<div class="announce">
+ <div class="wrap">
+  <div class="marq">
+   <span data-i18n="ann">✦ <b>Now open in Bhuvanagiri (Bhongir)</b> — visit our newest luxury showroom beside Govt. Junior College, Medikuntapally</span>
+  </div>
+  <div class="right">
+   <a class="ph-link" href="tel:+919247994041">
+    <svg class="ico" style="width:14px;height:14px"><use href="#i-phone"/></svg>
+    <span>+91 92479 94041</span>
+   </a>
+   <div class="lang" role="group" aria-label="Language">
+    <button class="on" data-lang="en">EN</button>
+    <button data-lang="te">తెలుగు</button>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- Sticky Main Navigation (Phase 4) -->
+<header class="top" id="top">
+ <div class="wrap">
+  <button class="tool burger" aria-label="Menu" id="burger">
+   <svg class="ico"><use href="#i-menu"/></svg>
+  </button>
+  
+  <a href="#top" class="logo" id="logo" aria-label="Garuda Vastra Silks home">
+   <img src="__C1__chatgpt-image-sep-10-2026-04_44_41-pm-Bk2SA.png" alt="Garuda Vastra Silks" onerror="this.parentNode.classList.add('fallback')">
+   <span class="wm">Garuda Vastra<small>SILKS</small></span>
+  </a>
+  
+  <nav class="main" aria-label="Main">
+   <a href="#shop" data-i18n="nSarees">Shop Sarees</a>
+   <a href="#weaves" data-i18n="nWeaves">Collections</a>
+   <a href="#studio" class="badge-tag" data-i18n="nTry">Virtual Studio</a>
+   <a href="#heritage" data-i18n="nHeritage">Our Heritage</a>
+   <a href="#stores" data-i18n="nStores">Showrooms</a>
+   <a href="#bridal" data-i18n="nBridal">Bridal Appointment</a>
+  </nav>
+  
+  <div class="tools">
+   <button class="tool" aria-label="Search" id="openSearch">
+    <svg class="ico"><use href="#i-search"/></svg>
+   </button>
+   <button class="tool" aria-label="Wishlist" id="openWl">
+    <svg class="ico"><use href="#i-heart"/></svg>
+    <span class="badge" id="wlCount">0</span>
+   </button>
+   <a href="#bridal" class="btn btn-gold btn-sm" style="display:none;" id="headerBookBtn" data-i18n="nBook">Book Visit</a>
+  </div>
+ </div>
+</header>
+
+<!-- Fullscreen Mobile Navigation Drawer -->
+<nav class="mnav" id="mnav" aria-label="Mobile Navigation">
+ <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--line)">
+  <div class="lang">
+   <button class="on" data-lang="en">EN</button>
+   <button data-lang="te">తెలుగు</button>
+  </div>
+  <button class="tool" id="closeM" aria-label="Close menu">
+   <svg class="ico"><use href="#i-x"/></svg>
+  </button>
+ </div>
+ <a href="#shop" data-i18n="nSarees">Shop Sarees</a>
+ <a href="#weaves" data-i18n="nWeaves">Collections by Weave</a>
+ <a href="#studio" data-i18n="nTry">Virtual Try-On Studio</a>
+ <a href="#depts" data-i18n="nFamily">Women · Men · Kids</a>
+ <a href="#heritage" data-i18n="nHeritage">Our Heritage</a>
+ <a href="#stores" data-i18n="nStores">Our Showrooms</a>
+ <a href="#bridal" data-i18n="nBridal">Bridal Appointment</a>
+ <div class="mnav-footer">
+  <a href="tel:+919247994041" class="btn btn-plum">
+   <svg class="ico"><use href="#i-phone"/></svg>+91 92479 94041
+  </a>
+  <a href="https://wa.me/919247994041" class="btn btn-wa" target="_blank" rel="noopener">
+   <svg class="ico"><use href="#i-wa"/></svg>Chat with Concierge
+  </a>
+  <span style="font-size:0.78rem;color:var(--muted);text-align:center">Open 7 Days · 10:00 AM – 10:00 PM</span>
+ </div>
+</nav>
+
+<main>
+<!-- HERO EXPERIENCE: FLOATING SILK SAREE CONCEPT (Phase 3) -->
+<section class="hero" id="hero">
+ <div class="split-container">
+  <!-- Left Editorial Card -->
+  <div class="hero-editorial">
+   <span class="eyebrow" data-i18n="heroEy">HERITAGE SILK ATELIER · EST. TELANGANA</span>
+   <h1 data-i18n-html="heroH">Elegance, woven through <em>generations.</em></h1>
+   <p class="lead" data-i18n="heroP">Discover the timeless beauty of Indian silk craftsmanship, where every weave carries a story of heritage and elegance. Heirloom Kanchipurams, Banarasi brocades and graceful handlooms crafted for your life's grandest milestones.</p>
+   <div class="hero-ctas">
+    <a href="#shop" class="btn btn-gold">
+     <span data-i18n="ctaShop">Explore Collections</span>
+     <svg class="ico"><use href="#i-arrow"/></svg>
+    </a>
+    <a href="#heritage" class="btn btn-outline-gold">
+     <span data-i18n="ctaHeritage">Discover Our Heritage</span>
+    </a>
+   </div>
+   <div class="hero-stats">
+    <div>
+     <b>4</b>
+     <span data-i18n="st1">Flagship Showrooms</span>
+    </div>
+    <div>
+     <b>10–10</b>
+     <span data-i18n="st2">Open Every Day</span>
+    </div>
+    <div>
+     <b>1-Tap</b>
+     <span data-i18n="st3">WhatsApp Concierge</span>
+    </div>
+   </div>
+  </div>
+  
+  <!-- Right Studio Stage: Floating Silk Saree Experience -->
+  <div class="hero-media hero-studio-stage" id="heroStudioStage" aria-label="Floating silk saree luxury display">
+   <!-- Ambient Luxury Studio Lighting & Zari Dust -->
+   <div class="studio-lighting"></div>
+   <div class="floating-zari-dust" aria-hidden="true">
+    <span class="zari-particle p1"></span>
+    <span class="zari-particle p2"></span>
+    <span class="zari-particle p3"></span>
+    <span class="zari-particle p4"></span>
+    <span class="zari-particle p5"></span>
+    <span class="zari-particle p6"></span>
+   </div>
+   
+   <!-- Saree Silk Switcher in Hero -->
+   <div class="hero-silk-switcher" id="heroSilkSwitcher">
+    <span class="switcher-label">PREVIEW WEAVE</span>
+    <div class="switcher-chips">
+     <button class="switcher-chip on" data-saree-idx="0" title="Sea Green & Maroon Kanchipuram" aria-label="Sea Green Kanchipuram">
+      <span class="swatch" style="background: linear-gradient(135deg, #1f7a6b 50%, #8e1b22 50%);"></span>
+      <span class="name">Kanchipuram</span>
+     </button>
+     <button class="switcher-chip" data-saree-idx="1" title="Crimson & Antique Gold Bridal Pattu" aria-label="Crimson Bridal Pattu">
+      <span class="swatch" style="background: linear-gradient(135deg, #8e1b22 50%, #C5A04A 50%);"></span>
+      <span class="name">Bridal Pattu</span>
+     </button>
+     <button class="switcher-chip" data-saree-idx="2" title="Royal Blue Banarasi Brocade" aria-label="Royal Blue Banarasi">
+      <span class="swatch" style="background: linear-gradient(135deg, #1c2f6e 50%, #C5A04A 50%);"></span>
+      <span class="name">Banarasi</span>
+     </button>
+    </div>
+   </div>
+   
+   <!-- 3D Perspective Floating Saree Rig -->
+   <div class="floating-saree-rig" id="sareeRig">
+    <!-- Dynamic Contact Shadow -->
+    <div class="saree-floor-shadow" id="sareeFloorShadow"></div>
+    
+    <!-- Floating Saree Body -->
+    <div class="floating-saree-container" id="floatingSaree">
+     <!-- Silk Specular Shimmer -->
+     <div class="silk-specular-shimmer" aria-hidden="true"></div>
+     
+     <!-- Authentic Silk Saree Photography -->
+     <img class="floating-saree-img" id="heroFloatingImg" 
+          src="__C1__sea_green_kanchipattu_silk_saree_for_indian_weddings_with_contrast_weaving_border_1-lTvsK.jpg" 
+          alt="Floating Kanchipuram Silk Saree in Luxury Studio" 
+          onerror="fb(this,0)">
+    </div>
+   </div>
+   
+   <!-- Showroom Live Status Card -->
+   <aside class="hero-store-pill">
+    <span class="live-tag"><i class="dot"></i><span id="heroOpen">OPEN NOW · BHUVANAGIRI FLAGSHIP</span></span>
+    <h4 data-i18n="hcH">Bhuvanagiri Showroom</h4>
+    <p data-i18n="hcP">Three floors of bridal silks and family collections, beside Govt. Junior College, Medikuntapally.</p>
+    <div style="display:flex;gap:10px">
+     <a class="btn btn-gold btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Garuda+Vastra+Silks+Bhuvanagiri+Telangana">
+      <svg class="ico"><use href="#i-pin"/></svg><span data-i18n="dir">Directions</span>
+     </a>
+     <a class="btn btn-outline-gold btn-sm" href="#stores" data-i18n="more">All Stores</a>
+    </div>
+   </aside>
+  </div>
+ </div>
+</section>
+
+<!-- INTERACTIVE BRAND HIGHLIGHTS & SERVICES STRIP (Phase 5) -->
+<section class="highlights" id="highlights">
+ <div class="wrap">
+  <div class="highlights-grid">
+   <a href="#studio" class="highlight-item" id="hl-tryon" aria-label="Virtual Try-On Studio">
+    <div class="highlight-icon"><svg class="ico"><use href="#i-spark"/></svg></div>
+    <div class="highlight-text">
+     <b data-i18n="p1">Virtual Try-On Studio</b>
+     <span data-i18n="p1s">Preview drape on your photo</span>
+    </div>
+    <span class="highlight-arrow"><svg class="ico"><use href="#i-arrow"/></svg></span>
+   </a>
+   
+   <a href="#bridal" class="highlight-item" id="hl-video" aria-label="Video Shopping Live" data-set-mode="Video call">
+    <div class="highlight-icon"><svg class="ico"><use href="#i-video"/></svg></div>
+    <div class="highlight-text">
+     <b data-i18n="p2">Video Shopping Live</b>
+     <span data-i18n="p2s">Curated live video call browse</span>
+    </div>
+    <span class="highlight-arrow"><svg class="ico"><use href="#i-arrow"/></svg></span>
+   </a>
+   
+   <a href="#care" class="highlight-item" id="hl-draping" aria-label="Personal Draping Service">
+    <div class="highlight-icon"><svg class="ico"><use href="#i-hand"/></svg></div>
+    <div class="highlight-text">
+     <b data-i18n="p3">Personal Draping Service</b>
+     <span data-i18n="p3s">Master drapers assist in-store</span>
+    </div>
+    <span class="highlight-arrow"><svg class="ico"><use href="#i-arrow"/></svg></span>
+   </a>
+   
+   <a href="#bridal" class="highlight-item" id="hl-bridal" aria-label="Bridal Trousseau Atelier" data-set-mode="In-store visit" data-set-occ="Wedding (Bride Muhurtham)">
+    <div class="highlight-icon"><svg class="ico"><use href="#i-cal"/></svg></div>
+    <div class="highlight-text">
+     <b data-i18n="p5">Bridal Trousseau Atelier</b>
+     <span data-i18n="p5s">Private wedding consults</span>
+    </div>
+    <span class="highlight-arrow"><svg class="ico"><use href="#i-arrow"/></svg></span>
+   </a>
+   
+   <a href="https://wa.me/919247994041?text=Hello%20Garuda%20Vastra%20Silks%2C%20I%20would%20like%20to%20enquire%20about%20your%20silk%20collections." target="_blank" rel="noopener" class="highlight-item" id="hl-wa" aria-label="WhatsApp Concierge">
+    <div class="highlight-icon"><svg class="ico"><use href="#i-wa"/></svg></div>
+    <div class="highlight-text">
+     <b data-i18n="p4">WhatsApp Concierge</b>
+     <span data-i18n="p4s">Instant stock &amp; reservation</span>
+    </div>
+    <span class="highlight-arrow"><svg class="ico"><use href="#i-arrow"/></svg></span>
+   </a>
+  </div>
+ </div>
+</section>
+
+<!-- INTERACTIVE SHOP BY WEAVE / SERIES SELECTION (Phase 4) -->
+<section class="sec" id="weaves">
+ <div class="wrap">
+  <div class="sec-head reveal">
+   <div>
+    <span class="eyebrow" data-i18n="wEy">01 — The Silk Treasury</span>
+    <h2 data-i18n="wH">Shop by Weave</h2>
+   </div>
+   <p class="lead" data-i18n="wP">Sarees are our enduring passion. Explore our curated repertoires from historic looms across India — each weave verified for zari purity and artisan authenticity.</p>
+  </div>
+  <div class="weaves-editorial" id="weaveGrid"></div>
+ </div>
+</section>
+
+<!-- SAREE FINDER (Phase 5 - 04) -->
+<section class="sec" style="padding-top:0">
+ <div class="wrap">
+  <div class="finder-section reveal">
+   <div>
+    <span class="eyebrow" style="color:var(--gold-light)" data-i18n="fEy">Saree Concierge</span>
+    <h2 data-i18n-html="fH">Not sure where to begin? <em>Let us guide you.</em></h2>
+    <p class="lead" data-i18n="fP">Select your occasion, preferred color palette, and budget. Our digital concierge will curate matching heirlooms from our showroom shelves instantly.</p>
+    <button class="btn btn-gold" style="margin-top:28px" id="findBtn">
+     <span data-i18n="fBtn">Show Curated Sarees</span>
+     <svg class="ico"><use href="#i-arrow"/></svg>
+    </button>
+   </div>
+   <div>
+    <div class="finder-q">
+     <label data-i18n="q1">1 · THE OCCASION</label>
+     <div class="chip-group" data-q="occasion"></div>
+    </div>
+    <div class="finder-q">
+     <label data-i18n="q2">2 · YOUR BUDGET</label>
+     <div class="chip-group" data-q="budget"></div>
+    </div>
+    <div class="finder-q">
+     <label data-i18n="q3">3 · A COLOUR YOU LOVE</label>
+     <div class="chip-group" data-q="colour"></div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- DEDICATED SHOP & CATALOGUE (Phase 6) -->
+<section class="sec" id="shop">
+ <div class="wrap">
+  <div class="sec-head reveal">
+   <div>
+    <span class="eyebrow" data-i18n="cEy">02 — Curated Collection</span>
+    <h2 data-i18n="cH">The Saree Gallery</h2>
+   </div>
+   <p class="lead" data-i18n="cP">Explore our exquisite silks. Tap the heart to curate your personal wishlist, select "Try On" to preview the drape, or enquire directly via WhatsApp.</p>
+  </div>
+  
+  <!-- Multi-Attribute Toolbar -->
+  <div class="cat-toolbar">
+   <div class="cat-primary-filters">
+    <div class="chip-group" id="weaveFilter"></div>
+    <div class="search-field">
+     <svg class="ico"><use href="#i-search"/></svg>
+     <input id="q" placeholder="Search silk, weave, colour…" aria-label="Search sarees">
+    </div>
+   </div>
+   
+   <div class="cat-filters-row">
+    <select id="occFilter" class="select-field" aria-label="Filter by Occasion">
+     <option value="All">All Occasions</option>
+     <option value="Wedding">Weddings</option>
+     <option value="Festive">Festivals</option>
+     <option value="Celebration">Celebrations</option>
+     <option value="Everyday">Everyday</option>
+    </select>
+    
+    <select id="priceFilter" class="select-field" aria-label="Filter by Budget">
+     <option value="All">All Price Ranges</option>
+     <option value="Under ₹5k">Under ₹5,000</option>
+     <option value="₹5k–15k">₹5,000 – ₹15,000</option>
+     <option value="₹15k–30k">₹15,000 – ₹30,000</option>
+     <option value="₹30k+">Above ₹30,000</option>
+    </select>
+    
+    <select id="colorFilter" class="select-field" aria-label="Filter by Color">
+     <option value="All">All Colors</option>
+     <option value="Red">Red &amp; Crimson</option>
+     <option value="Green">Green &amp; Mint</option>
+     <option value="Blue">Royal &amp; Indigo Blue</option>
+     <option value="Yellow">Yellow &amp; Mustard</option>
+     <option value="Pink">Pink &amp; Magenta</option>
+     <option value="Pastel">Soft Pastels &amp; Peach</option>
+    </select>
+    
+    <select id="sort" class="select-field" aria-label="Sort sarees" style="margin-left:auto">
+     <option value="new">Sort by: Featured</option>
+     <option value="lo">Price: Low to High</option>
+     <option value="hi">Price: High to Low</option>
+    </select>
+   </div>
+   
+   <div class="active-filters-bar" id="activeFilterBar" style="display:none">
+    <span>Active Filters:</span>
+    <div id="filterPillsContainer" style="display:inline-flex;gap:8px;flex-wrap:wrap"></div>
+    <button id="clearAllFilters" style="color:var(--gold-dark);font-weight:600;margin-left:8px;cursor:pointer">Clear All</button>
+   </div>
+  </div>
+  
+  <!-- Products Grid -->
+  <div class="products-grid" id="grid"></div>
+ </div>
+</section>
+
+<!-- VIRTUAL TRY-ON STUDIO EXPERIENCE (Phase 8) -->
+<section class="sec studio-section" id="studio">
+ <div class="wrap">
+  <div class="sec-head reveal">
+   <div>
+    <span class="eyebrow" data-i18n="tEy">03 — Interactive Atelier</span>
+    <h2 data-i18n="tH">Virtual Try-On Studio</h2>
+   </div>
+   <p class="lead" data-i18n="tP">Upload your full-length portrait or use your camera to preview how our sarees drape on you before stepping into the showroom. Adjust scale and tilt, compare with your original photo, or reserve the saree on WhatsApp.</p>
+  </div>
+  
+  <div class="studio-grid">
+   <!-- Interactive Drape Stage -->
+   <div class="studio-stage" id="stage">
+    <canvas id="cv" width="900" height="1200" aria-label="Virtual try-on interactive canvas"></canvas>
+    <span class="stage-hint" data-i18n="drag">Drag to position · pinch to resize</span>
+    <button class="compare-btn" id="compare" data-i18n="hold">Hold to compare</button>
+   </div>
+   
+   <!-- Studio Control Panel -->
+   <div class="studio-panel">
+    <div class="studio-steps">
+     <div class="on" id="s1">
+      <b data-i18n="s1">1. Your Photo</b>
+      <span data-i18n="s1s">Portrait or full length</span>
+     </div>
+     <div id="s2">
+      <b data-i18n="s2">2. Pick Saree</b>
+      <span data-i18n="s2s">From our repertoire</span>
+     </div>
+     <div id="s3">
+      <b data-i18n="s3">3. Save &amp; Reserve</b>
+      <span data-i18n="s3s">Share on WhatsApp</span>
+     </div>
+    </div>
+    
+    <!-- Photo Upload Zone -->
+    <div class="dropzone" id="drop">
+     <input type="file" accept="image/*" id="file" hidden>
+     <input type="file" accept="image/*" capture="user" id="camFile" hidden>
+     
+     <div id="dropEmptyState">
+      <svg class="ico" style="margin:0 auto 8px;width:32px;height:32px;color:var(--gold)"><use href="#i-upload"/></svg>
+      <b style="display:block;font-size:1.02rem;color:var(--plum)" data-i18n="up">Upload Your Photograph</b>
+      <small style="color:var(--muted);display:block;margin-top:4px" data-i18n="ups">Drop a photo here or browse from your device</small>
+      <div class="dropzone-actions">
+       <button type="button" class="btn btn-sm btn-plum" id="btnBrowseFile">
+        <svg class="ico"><use href="#i-upload"/></svg>Select File
+       </button>
+       <button type="button" class="btn btn-sm btn-outline-dark" id="btnUseCam">
+        <svg class="ico"><use href="#i-camera"/></svg>Take Photo
+       </button>
+      </div>
+     </div>
+     
+     <div id="dropActiveState" style="display:none;align-items:center;justify-content:space-between">
+      <span style="font-size:0.86rem;color:var(--plum);font-weight:600">✓ Photo Active in Studio</span>
+      <div style="display:flex;gap:8px">
+       <button type="button" class="btn btn-sm btn-outline-dark" id="btnReplacePhoto">Replace</button>
+       <button type="button" class="btn btn-sm btn-outline-dark" id="btnRemovePhoto">Clear</button>
+      </div>
+     </div>
+    </div>
+    
+    <div class="privacy-notice">
+     <svg class="ico" style="width:14px;height:14px"><use href="#i-lock"/></svg>
+     <span data-i18n="priv">Photo stays private on your browser. Never uploaded to servers.</span>
+    </div>
+    
+    <!-- Saree Selector Strip -->
+    <h4 style="font-size:0.76rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dark);margin:24px 0 6px" data-i18n="choose">SELECT A SAREE TO DRAPE</h4>
+    <div class="saree-picker-strip" id="pick"></div>
+    <div id="selName" style="font-family:var(--serif-heading);font-size:1.25rem;margin-top:8px"></div>
+    
+    <!-- Drape Adjustment Controls -->
+    <h4 style="font-size:0.76rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dark);margin:20px 0 6px" data-i18n="adjust">DRAPE FINE-TUNING</h4>
+    <div class="studio-slider-row">
+     <span data-i18n="size">Scale</span>
+     <input type="range" id="rSize" min="40" max="160" value="100" aria-label="Drape scale">
+     <output id="oSize">100%</output>
+    </div>
+    <div class="studio-slider-row">
+     <span data-i18n="height">Length</span>
+     <input type="range" id="rLen" min="70" max="130" value="100" aria-label="Drape length">
+     <output id="oLen">100%</output>
+    </div>
+    <div class="studio-slider-row">
+     <span data-i18n="tilt">Rotation</span>
+     <input type="range" id="rRot" min="-20" max="20" value="0" aria-label="Drape tilt">
+     <output id="oRot">0°</output>
+    </div>
+    
+    <label class="studio-toggle">
+     <input type="checkbox" id="shade" checked>
+     <span data-i18n="shade">Harmonize with ambient photograph lighting</span>
+    </label>
+    <label class="studio-toggle">
+     <input type="checkbox" id="pallu" checked>
+     <span data-i18n="palluT">Show ornate pallu over left shoulder</span>
+    </label>
+    
+    <!-- Output Actions -->
+    <div style="display:flex;gap:12px;margin-top:26px;flex-wrap:wrap">
+     <button class="btn btn-plum" id="dl">
+      <svg class="ico"><use href="#i-download"/></svg>
+      <span data-i18n="save">Save High-Res Look</span>
+     </button>
+     <button class="btn btn-wa" id="shareLook">
+      <svg class="ico"><use href="#i-wa"/></svg>
+      <span data-i18n="reserve">Reserve at Showroom</span>
+     </button>
+    </div>
+    
+    <p style="font-size:0.76rem;color:var(--muted);margin-top:16px;line-height:1.45" data-i18n="tNote">
+     Atelier preview renders drape geometry from authentic weave patterns and zari borders.
+    </p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- OCCASIONS MOSAIC (Phase 5 - 08) -->
+<section class="sec" id="occasions">
+ <div class="wrap">
+  <div class="sec-head reveal">
+   <div>
+    <span class="eyebrow" data-i18n="oEy">04 — Celebrations</span>
+    <h2 data-i18n="oH">Dress for Every Occasion</h2>
+   </div>
+   <p class="lead" data-i18n="oP">From royal wedding mandapams to festive pujas and serene everyday drapes, discover ensembles woven for your family's memorable days.</p>
+  </div>
+  <div class="occ-mosaic reveal">
+   <a href="#shop" class="occ-card" data-occ="Wedding">
+    <img loading="lazy" src="__C2__a8da42bd-853c-45f7-9d01-9ddc5f25dcee.png" alt="Bride in crimson Kanchipuram silk" onerror="fb(this,0)">
+    <div class="text">
+     <h3 data-i18n="o1">Weddings</h3>
+     <span data-i18n="o1s">Bridal silks, muhurtham drapes &amp; family ensembles</span>
+    </div>
+   </a>
+   <a href="#shop" class="occ-card" data-occ="Festive">
+    <img loading="lazy" src="__C2__05557173-3359-4547-88a2-2b06ba251a34.png" alt="Festive silk saree" onerror="fb(this,3)">
+    <div class="text">
+     <h3 data-i18n="o2">Festivals</h3>
+     <span data-i18n="o2s">Bathukamma, Diwali, Sankranti &amp; Ugadi</span>
+    </div>
+   </a>
+   <a href="#shop" class="occ-card" data-occ="Celebration">
+    <img loading="lazy" src="__C2__1d05180d-b6a1-4c95-8deb-04d20a553f28.png" alt="Celebration ethnic wear" onerror="fb(this,5)">
+    <div class="text">
+     <h3 data-i18n="o3">Celebrations</h3>
+     <span data-i18n="o3s">Engagements, housewarmings &amp; milestones</span>
+    </div>
+   </a>
+   <a href="#shop" class="occ-card" data-occ="Everyday">
+    <img loading="lazy" src="__C2__867297ad-6a9a-4eca-bc1e-88cae617ba76.png" alt="Handloom cotton saree" onerror="fb(this,8)">
+    <div class="text">
+     <h3 data-i18n="o4">Everyday Elegance</h3>
+     <span data-i18n="o4s">Breathable soft silks &amp; artisan cottons</span>
+    </div>
+   </a>
+   <a href="#bridal" class="occ-card">
+    <img loading="lazy" src="__C1__48a76f92d63b844992f404965bfa0683.webp" alt="Bridal Atelier appointment" onerror="fb(this,1)">
+    <div class="text">
+     <h3 data-i18n="o5">Bridal Atelier</h3>
+     <span data-i18n="o5s">Private appointment with silk specialists →</span>
+    </div>
+   </a>
+  </div>
+ </div>
+</section>
+
+<!-- FAMILY DEPARTMENTS (Phase 5 - 09) -->
+<section class="sec" id="depts" style="padding-top:0">
+ <div class="wrap">
+  <div class="sec-head reveal">
+   <div>
+    <span class="eyebrow" data-i18n="dEy">05 — Curated Wardrobes</span>
+    <h2 data-i18n="dH">Collections for the Entire Family</h2>
+   </div>
+   <p class="lead" data-i18n="dP">Pure silks are our heartbeat — harmonized around them are complete premium ensembles for women, men and children.</p>
+  </div>
+  <div class="depts-grid reveal">
+   <a href="#shop" class="dept-card">
+    <div class="dept-media">
+     <img loading="lazy" src="__C1__chatgpt-image-sep-10-2026-07_59_17-pm-H4VgL.png" alt="Women's ethnic collections" onerror="fb(this,2)">
+    </div>
+    <div class="dept-info">
+     <h3 data-i18n="d1">Women</h3>
+     <p data-i18n="d1p">Heirloom sarees, designer bridal lehengas, half-saree sets, and unstitched fabrics.</p>
+     <div class="dept-pill-links">
+      <span>Pure Silks</span><span>Lehengas</span><span>Half-Sarees</span><span>Dress Materials</span>
+     </div>
+    </div>
+   </a>
+   
+   <a href="#shop" class="dept-card">
+    <div class="dept-media">
+     <img loading="lazy" src="__C1__550216eb7d0e68681604a8153385e19b.jpg" alt="Men's wedding and formal wear" onerror="fb(this,6)">
+    </div>
+    <div class="dept-info">
+     <h3 data-i18n="d2">Men</h3>
+     <p data-i18n="d2p">Hand-embroidered sherwanis, raw silk kurta sets, pattu pancha sets, and Italian shirting.</p>
+     <div class="dept-pill-links">
+      <span>Sherwanis</span><span>Kurta Sets</span><span>Pattu Pancha</span><span>Suits</span>
+     </div>
+    </div>
+   </a>
+   
+   <a href="#shop" class="dept-card">
+    <div class="dept-media">
+     <img loading="lazy" src="__C1__23c02bbd77ce9ee97c6d227da5ea8371.jpg" alt="Kids festive and party wear" onerror="fb(this,9)">
+    </div>
+    <div class="dept-info">
+     <h3 data-i18n="d3">Kids</h3>
+     <p data-i18n="d3p">Traditional pure pattu pavadai sets, boys festive kurtas, and comfortable celebratory wear.</p>
+     <div class="dept-pill-links">
+      <span>Pattu Pavadai</span><span>Boys Kurtas</span><span>Party Ensembles</span>
+     </div>
+    </div>
+   </a>
+  </div>
+ </div>
+</section>
+
+<!-- BRAND HERITAGE & STORYTELLING (Phase 5 - 10) -->
+<section class="sec heritage-section" id="heritage">
+ <div class="wrap">
+  <div class="heritage-grid">
+   <div class="heritage-text reveal">
+    <span class="eyebrow" style="color:var(--gold-light)" data-i18n="hEy">The Garuda Legacy</span>
+    <h2 data-i18n-html="hH">Woven with reverence, <em>cherished for generations.</em></h2>
+    <p data-i18n="hP1">At Garuda Vastra Silks, we honor the ancient rhythm of South Indian handlooms. For decades, our patron relationships with master weavers in Kanchipuram, Varanasi, Gadwal, and Pochampally have preserved the sacred art of genuine zari and natural silk.</p>
+    <p data-i18n="hP2">Every drape on our showroom shelves undergoes meticulous quality appraisal — ensuring that when a bride or family takes home a Garuda saree, they receive a certified heirloom that endures through lifetimes.</p>
+    
+    <div class="heritage-pillars">
+     <div class="heritage-pillar">
+      <b data-i18n="hp1">Certified Pure Zari</b>
+      <span data-i18n="hp1s">Authentic silver and electroplated gold tests</span>
+     </div>
+     <div class="heritage-pillar">
+      <b data-i18n="hp2">Direct Artisan Looms</b>
+      <span data-i18n="hp2s">Empowering generational weaving clusters</span>
+     </div>
+    </div>
+   </div>
+   
+   <div class="heritage-media reveal">
+    <img src="__C1__48a76f92d63b844992f404965bfa0683.webp" alt="Artisan weaving silk saree" onerror="fb(this,0)">
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- SHOWROOM SPOTLIGHT: BHUVIANAGIRI (Phase 5 - 11) -->
+<section class="sec" id="spotlight">
+ <div class="wrap">
+  <div class="bhongir-spotlight reveal">
+   <div class="bhongir-grid">
+    <div class="bhongir-info">
+     <span class="eyebrow" style="color:var(--gold-light)" data-i18n="spEy">Now Open · Bhuvanagiri Flagship</span>
+     <h2 data-i18n="spH">A Grand Sanctuary for Silk in Bhongir</h2>
+     <p class="lead" style="color:rgba(245,239,228,0.8)" data-i18n="spP">Our three-floor destination showroom brings thousands of heirloom silks, men's wedding attire, and kids collections to the heart of Bhuvanagiri.</p>
+     
+     <ul class="bhongir-details-list">
+      <li>
+       <svg class="ico"><use href="#i-pin"/></svg>
+       <span>Municipal Door Nos. 1-3-234/3 to 234/13, Beside Govt. Junior College, Medikuntapally, Bhuvanagiri, Telangana</span>
+      </li>
+      <li>
+       <svg class="ico"><use href="#i-clock"/></svg>
+       <span data-i18n="hrs">Open 7 Days a Week, 10:00 AM – 10:00 PM</span>
+      </li>
+      <li>
+       <svg class="ico"><use href="#i-gift"/></svg>
+       <span data-i18n="spOffer">Inaugural festive offers &amp; bridal perks available in store</span>
+      </li>
+     </ul>
+     
+     <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <a class="btn btn-gold" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Garuda+Vastra+Silks+Bhuvanagiri+Telangana">
+       <svg class="ico"><use href="#i-pin"/></svg><span data-i18n="dir">Get Directions</span>
+      </a>
+      <a class="btn btn-outline-gold" href="tel:+919247994041">
+       <svg class="ico"><use href="#i-phone"/></svg><span data-i18n="call">Call Showroom</span>
+      </a>
+     </div>
+    </div>
+    
+    <div style="border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-lg)">
+     <img src="__STORE__" alt="Garuda Vastra Silks Bhuvanagiri showroom facade">
+    </div>
+   </div>
+  </div>
+  
+  <!-- STORE LOCATOR GRID (Phase 5 - 12) -->
+  <div class="sec-head reveal" id="stores">
+   <div>
+    <span class="eyebrow" data-i18n="stEy">06 — Showrooms</span>
+    <h2 data-i18n="stH">Our Showrooms Across Telangana</h2>
+   </div>
+   <p class="lead" data-i18n="stP">Visit us in person. Every showroom features dedicated silk stylists, private bridal trial lounges, and live opening status.</p>
+  </div>
+  <div class="stores-grid reveal" id="storeGrid"></div>
+ </div>
+</section>
+
+<!-- BRIDAL & FAMILY APPOINTMENTS (Phase 5 - 13 & Phase 9) -->
+<section class="sec" id="bridal" style="padding-top:0">
+ <div class="wrap booking-grid">
+  <div class="booking-art reveal">
+   <img loading="lazy" src="__C1__48a76f92d63b844992f404965bfa0683.webp" alt="Bridal consultation suite" onerror="fb(this,0)">
+   <div class="overlay-card">
+    <b data-i18n="bkL">The Bridal Atelier Experience</b>
+    <span style="font-size:0.86rem;color:var(--muted)" data-i18n="bkLs">Enjoy dedicated attention from our silk curators — in our private salon or over an interactive live video call.</span>
+   </div>
+  </div>
+  
+  <div class="reveal">
+   <span class="eyebrow" data-i18n="bkEy">07 — Bespoke Visit</span>
+   <h2 style="margin-top:10px" data-i18n="bkH">Reserve a Bridal or Family Consultation</h2>
+   <p class="lead" style="margin-top:10px" data-i18n="bkP">Share your wedding date and color themes. We will curate a dedicated tray of rare weaves ready for your family's arrival.</p>
+   
+   <form class="booking-form" id="bookForm">
+    <div class="full">
+     <label data-i18n="bkMode">How would you prefer to shop?</label>
+     <div class="segment-toggle" id="mode">
+      <button type="button" class="on" data-v="In-store visit" data-i18n="m1">In-Store Private Visit</button>
+      <button type="button" data-v="Video call" data-i18n="m2">Live Video Shopping</button>
+     </div>
+    </div>
+    
+    <div>
+     <label for="bn" data-i18n="fName">Full Name</label>
+     <input id="bn" required placeholder="e.g. Sravanthi Reddy">
+    </div>
+    
+    <div>
+     <label for="bp" data-i18n="fPhone">Mobile / WhatsApp Number</label>
+     <input id="bp" required inputmode="tel" pattern="[0-9+ ]{10,14}" placeholder="10-digit number">
+    </div>
+    
+    <div>
+     <label for="bs" data-i18n="fStore">Preferred Showroom</label>
+     <select id="bs"></select>
+    </div>
+    
+    <div>
+     <label for="bd" data-i18n="fDate">Preferred Date</label>
+     <input id="bd" type="date" required>
+    </div>
+    
+    <div>
+     <label for="bo" data-i18n="fOcc">Occasion</label>
+     <select id="bo">
+      <option>Wedding (Bride Muhurtham)</option>
+      <option>Wedding (Family &amp; Trousseau)</option>
+      <option>Engagement Ceremony</option>
+      <option>Festival / Puja</option>
+      <option>Other Celebration</option>
+     </select>
+    </div>
+    
+    <div>
+     <label for="bb" data-i18n="fBud">Estimated Budget per Saree</label>
+     <select id="bb">
+      <option>Under ₹10,000</option>
+      <option>₹10,000 – ₹25,000</option>
+      <option>₹25,000 – ₹50,000</option>
+      <option>Above ₹50,000 (Pure Heirloom Zari)</option>
+     </select>
+    </div>
+    
+    <div class="full">
+     <label for="bnote" data-i18n="fNote">Special Requests or Saved Wishlist (Optional)</label>
+     <textarea id="bnote" rows="2" placeholder="Preferred color combinations, specific weaves, number of matching family sarees…"></textarea>
+    </div>
+    
+    <div class="full">
+     <button class="btn btn-plum" type="submit" style="width:100%;justify-content:center">
+      <svg class="ico"><use href="#i-cal"/></svg>
+      <span data-i18n="bkBtn">Confirm Appointment via WhatsApp</span>
+     </button>
+    </div>
+   </form>
+  </div>
+ </div>
+</section>
+
+<!-- SAREE CARE & DRAPING GUIDE (Phase 5 - 14) -->
+<section class="sec" id="care" style="padding-top:0">
+ <div class="wrap care-grid">
+  <div class="reveal">
+   <span class="eyebrow" data-i18n="cgEy">08 — Silk Preservation</span>
+   <h2 style="margin:12px 0 20px" data-i18n="cgH">Preserving Silk for Future Generations</h2>
+   <div class="care-accordion">
+    <details open>
+     <summary data-i18n="c1">Storing Pure Silk &amp; Zari Sarees</summary>
+     <p data-i18n="c1p">Wrap in unbleached pure cotton or muslin fabric. Never store silks in plastic bags. Re-fold along different pleats every few months to prevent zari creasing and fiber stress.</p>
+    </details>
+    <details>
+     <summary data-i18n="c2">Washing &amp; Professional Cleaning</summary>
+     <p data-i18n="c2p">We strongly recommend dry cleaning pure Kanchipuram and Banarasi silks. For everyday soft silks, gentle cold-water wash with specialized mild shampoo is suitable. Never wring.</p>
+    </details>
+    <details>
+     <summary data-i18n="c3">Protecting Genuine Zari Borders</summary>
+     <p data-i18n="c3p">Apply perfumes and hairsprays prior to wearing your saree to shield metallic zari from alcohol corrosion. Iron on the reverse side under a protective pressing cloth.</p>
+    </details>
+    <details>
+     <summary data-i18n="c4">Spot and Stain Management</summary>
+     <p data-i18n="c4p">Blot immediately with a dry cloth — never rub vigorously. For ceremonial haldi or oil marks, bring the saree to our care team promptly for specialist treatment.</p>
+    </details>
+   </div>
+  </div>
+  
+  <div class="reveal">
+   <span class="eyebrow" data-i18n="drEy">The Art of Draping</span>
+   <h2 style="margin:12px 0 20px" data-i18n="drH">Signature Drapes Mastered In-Store</h2>
+   <div class="drapes-grid">
+    <div class="drape-card">
+     <span class="num">01</span>
+     <b>Nivi Drape</b>
+     <span data-i18n="dr1">The timeless Andhra &amp; Telangana silhouette with pleated front cascade and left-shoulder pallu.</span>
+    </div>
+    <div class="drape-card">
+     <span class="num">02</span>
+     <b>Gobbi Kattu</b>
+     <span data-i18n="dr2">Telangana's heritage festive drape, tied gracefully at the back for celebration and dance.</span>
+    </div>
+    <div class="drape-card">
+     <span class="num">03</span>
+     <b>Seedha Pallu</b>
+     <span data-i18n="dr3">Front-drawn imperial drape that highlights rich Banarasi zari pallus and heavy brocades.</span>
+    </div>
+    <div class="drape-card">
+     <span class="num">04</span>
+     <b>Butterfly Drape</b>
+     <span data-i18n="dr4">Sleek, modern pleats pleated closely for contemporary evening receptions and cocktail parties.</span>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- VIP CONCIERGE & FESTIVAL UPDATES (Phase 5 - 15) -->
+<section class="sec" style="padding-top:0">
+ <div class="wrap reveal">
+  <div class="newsletter-box">
+   <div>
+    <h3 data-i18n="upH">First Access to Festive Weaves</h3>
+    <p data-i18n="upP">Receive exclusive previews of new loom arrivals, private showroom trunk shows, and festival offers on WhatsApp.</p>
+   </div>
+   <form class="newsletter-form" id="upForm">
+    <input required inputmode="tel" placeholder="Enter your WhatsApp number" aria-label="WhatsApp number">
+    <button class="btn btn-gold btn-sm" data-i18n="join">Join Atelier List</button>
+   </form>
+  </div>
+ </div>
+</section>
+</main>
+
+<!-- BRANDED FOOTER (Phase 5 - 15) -->
+<footer class="site-footer">
+ <div class="wrap">
+  <div class="footer-grid">
+   <div>
+    <div class="brand-name">Garuda Vastra Silks</div>
+    <div class="te-name">గరుడ వస్త్ర సిల్క్స్</div>
+    <p style="margin-top:14px;font-size:0.9rem;line-height:1.6" data-i18n="fAbout">
+     Telangana's premier destination for certified handloom silks and complete family ethnic fashion. Handpicked from master artisan looms for life's most beautiful celebrations.
+    </p>
+    <div class="social-links">
+     <a href="#" aria-label="Instagram"><svg class="ico"><use href="#i-ig"/></svg></a>
+     <a href="#" aria-label="YouTube"><svg class="ico"><use href="#i-yt"/></svg></a>
+     <a href="#" aria-label="Facebook"><svg class="ico"><use href="#i-fb"/></svg></a>
+     <a href="https://wa.me/919247994041" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="ico"><use href="#i-wa"/></svg></a>
+    </div>
+   </div>
+   
+   <div>
+    <h5>COLLECTIONS</h5>
+    <ul>
+     <li><a href="#shop">Kanchipuram Silks</a></li>
+     <li><a href="#shop">Banarasi Brocades</a></li>
+     <li><a href="#shop">Telangana Handlooms</a></li>
+     <li><a href="#shop">Bridal Muhurtham Sarees</a></li>
+     <li><a href="#depts">Men's Wedding Wear</a></li>
+     <li><a href="#depts">Kids Festive Pattu</a></li>
+    </ul>
+   </div>
+   
+   <div>
+    <h5>EXPERIENCES</h5>
+    <ul>
+     <li><a href="#studio">Virtual Try-On Studio</a></li>
+     <li><a href="#bridal">Bridal Atelier Appointment</a></li>
+     <li><a href="#bridal">Live Video Shopping</a></li>
+     <li><a href="#stores">Showroom Locator</a></li>
+     <li><a href="#heritage">The Weaver's Craft</a></li>
+    </ul>
+   </div>
+   
+   <div>
+    <h5>HEAD OFFICE &amp; SHOWROOMS</h5>
+    <ul>
+     <li>CPR Galaxy, Plot No. 71, Kavuri Hills, Hyderabad – 500033</li>
+     <li><a href="tel:+919247994041">+91 92479 94041</a></li>
+     <li><a href="mailto:contactus@garudavastrasilks.com">contactus@garudavastrasilks.com</a></li>
+     <li>Showrooms in Bhuvanagiri, Hyderabad, Jadcherla &amp; Jammikunta</li>
+     <li>Open 7 Days · 10:00 AM – 10:00 PM</li>
+    </ul>
+   </div>
+  </div>
+  
+  <div class="footer-bottom">
+   <span>© 2026 Garuda Vastra Silks. All rights reserved. Handcrafted with reverence across Telangana.</span>
+   <span>Preview Catalogue · Prices and stock reflect sample preview collections</span>
+  </div>
+ </div>
+</footer>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<a class="fab-whatsapp" href="https://wa.me/919247994041?text=Hello%20Garuda%20Vastra%20Silks%2C%20I%20would%20like%20to%20enquire%20about%20your%20silk%20saree%20collections." target="_blank" rel="noopener" aria-label="Chat with Concierge on WhatsApp">
+ <svg class="ico" style="width:30px;height:30px"><use href="#i-wa"/></svg>
+</a>
+
+<!-- MOBILE BOTTOM NAVIGATION (Phase 4 & 11) -->
+<nav class="bnav" aria-label="Quick mobile navigation">
+ <a href="#top">
+  <svg class="ico"><use href="#i-home"/></svg>
+  <span data-i18n="bHome">Home</span>
+ </a>
+ <a href="#shop">
+  <svg class="ico"><use href="#i-grid"/></svg>
+  <span data-i18n="nSarees">Sarees</span>
+ </a>
+ <a href="#studio" class="mid-btn">
+  <i><svg class="ico"><use href="#i-spark"/></svg></i>
+  <span data-i18n="bTry">Try-On</span>
+ </a>
+ <button id="bWl">
+  <svg class="ico"><use href="#i-heart"/></svg>
+  <span data-i18n="bSaved">Saved</span>
+  <b class="badge" id="wlCount2">0</b>
+ </button>
+ <a href="#stores">
+  <svg class="ico"><use href="#i-pin"/></svg>
+  <span data-i18n="bStores">Stores</span>
+ </a>
+</nav>
+
+<!-- OVERLAYS & MODALS -->
+<div class="scrim" id="scrim"></div>
+
+<!-- Slide-in Wishlist Drawer -->
+<aside class="drawer" id="wl" aria-label="Wishlist drawer">
+ <div class="drawer-head">
+  <h3 data-i18n="wlH">Curated Wishlist</h3>
+  <button class="tool" data-close aria-label="Close wishlist">
+   <svg class="ico"><use href="#i-x"/></svg>
+  </button>
+ </div>
+ <div class="drawer-body" id="wlBody"></div>
+ <div class="drawer-foot">
+  <button class="btn btn-wa" style="width:100%;justify-content:center" id="wlSend">
+   <svg class="ico"><use href="#i-wa"/></svg>
+   <span data-i18n="wlSend">Send Wishlist to Concierge on WhatsApp</span>
+  </button>
+ </div>
+</aside>
+
+<!-- Quick View / Product Detail Modal (Phase 7) -->
+<div class="modal" id="qv">
+ <div class="modal-box" id="qvBox"></div>
+</div>
+
+<!-- Fullscreen Search Overlay -->
+<div class="searchbox" id="sb">
+ <div class="wrap">
+  <div style="display:flex;gap:16px;align-items:center">
+   <input id="sbq" placeholder="Search Kanchipuram, Banarasi, Red, Bridal…" aria-label="Search collection">
+   <button class="tool" data-close aria-label="Close search">
+    <svg class="ico"><use href="#i-x"/></svg>
+   </button>
+  </div>
+  <div class="search-results" id="sres"></div>
+ </div>
+</div>
+
+<!-- Toast Pill Notification -->
+<div class="toast" id="toast"></div>
