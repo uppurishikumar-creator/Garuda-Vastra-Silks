@@ -140,7 +140,7 @@ function sareeArt(i, w = 600, h = 750) {
 
 function fb(img, i) {
   img.onerror = null;
-  img.src = sareeArt(i);
+  img.src = SAREE_REAL_PHOTOS[(i % 13) + 1] || "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80";
 }
 window.fb = fb;
 
@@ -163,19 +163,19 @@ const P = [
 
 // Authentic real silk saree photography matching each weave and color palette
 const SAREE_REAL_PHOTOS = {
-  1: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80",
-  2: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
-  3: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Kanchipuram_sarees_%287642282772%29.jpg/960px-Kanchipuram_sarees_%287642282772%29.jpg",
-  4: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Kanchipuram_sarees_%287642285396%29.jpg/960px-Kanchipuram_sarees_%287642285396%29.jpg",
-  5: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
-  6: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
-  7: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Saree_Weaving_by_Handloom.jpg/960px-Saree_Weaving_by_Handloom.jpg",
-  8: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Pochampalli_Ikat_saree.jpg/960px-Pochampalli_Ikat_saree.jpg",
-  9: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Sari.jpg/960px-Sari.jpg",
-  10: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/KanchipuramSlik_Saree.JPG/960px-KanchipuramSlik_Saree.JPG",
-  11: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=800&q=80",
-  12: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=800&q=80",
-  13: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Pochampalli_Ikat_saree.jpg/960px-Pochampalli_Ikat_saree.jpg"
+  1: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&h=1000&q=80",
+  2: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&h=1000&q=80",
+  3: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&crop=bottom&w=800&h=1000&q=80",
+  4: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&crop=bottom&w=800&h=1000&q=80",
+  5: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&h=1000&q=80",
+  6: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=800&h=1000&q=80",
+  7: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&crop=top&w=800&h=1000&q=80",
+  8: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&h=1000&q=80",
+  9: "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=800&h=1000&q=80",
+  10: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&h=1000&q=80",
+  11: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&crop=top&w=800&h=1000&q=80",
+  12: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&crop=bottom&w=800&h=1000&q=80",
+  13: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&h=1000&q=80"
 };
 
 P.forEach(p => {
@@ -184,10 +184,10 @@ P.forEach(p => {
 
 const C1 = "__C1__", C2 = "__C2__";
 const WEAVES = [
-  { k: "Kanchipuram", d: "Temple borders, contrast pallus and pure zari — the undisputed queen of South Indian handloom.", src: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80", pal: 0 },
-  { k: "Banarasi", d: "Intricate metallic brocades and imperial floral jaals hand-woven on Varanasi looms.", src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Kanchipuram_sarees_%287642282772%29.jpg/960px-Kanchipuram_sarees_%287642282772%29.jpg", pal: 2 },
-  { k: "Soft Silk", d: "Featherlight drape with luminous sheen — pure silk made effortless for celebrations.", src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Kanchipuram_sarees_%287642285396%29.jpg/960px-Kanchipuram_sarees_%287642285396%29.jpg", pal: 4 },
-  { k: "Handloom", d: "Gadwal, Pochampally Ikat, Narayanpet and artisan breathing cottons from regional looms.", src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Pochampalli_Ikat_saree.jpg/960px-Pochampalli_Ikat_saree.jpg", pal: 7 }
+  { k: "Kanchipuram", d: "Temple borders, contrast pallus and pure zari — the undisputed queen of South Indian handloom.", src: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=900&q=80", pal: 0 },
+  { k: "Banarasi", d: "Intricate metallic brocades and imperial floral jaals hand-woven on Varanasi looms.", src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80", pal: 2 },
+  { k: "Soft Silk", d: "Featherlight drape with luminous sheen — pure silk made effortless for celebrations.", src: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=900&q=80", pal: 4 },
+  { k: "Handloom", d: "Gadwal, Pochampally Ikat, Narayanpet and artisan breathing cottons from regional looms.", src: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=900&q=80", pal: 7 }
 ];
 
 const STORES = [
@@ -232,7 +232,7 @@ const toast = (m) => {
 };
 
 const waLink = (text) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
-const ask = p => waLink(`Hello Garuda Vastra Silks, I'm interested in the ${p.n} (${p.c}) — ref GVS-${String(p.id).padStart(3, "0")}. Is it available, and at which showroom?`);
+const ask = p => waLink(`Hello Garuda Styles, I'm interested in the ${p.n} (${p.c}) — ref GVS-${String(p.id).padStart(3, "0")}. Is it available, and at which showroom?`);
 
 // Showrooms open 10:00 AM to 10:00 PM local time
 const isOpen = () => {
@@ -608,7 +608,7 @@ function render() {
     <div style="grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--muted)">
      <h3 style="margin-bottom:10px">No matching sarees found</h3>
      <p style="margin-bottom:20px">Try broadening your filters or ask our showroom curators directly.</p>
-     <a href="${waLink("Hello Garuda Vastra Silks, I am looking for a saree with preferences: " + JSON.stringify(S.finder || { weave: S.weave, occasion: S.occ, price: S.price }))}" class="btn btn-wa" target="_blank" rel="noopener">
+     <a href="${waLink("Hello Garuda Styles, I am looking for a saree with preferences: " + JSON.stringify(S.finder || { weave: S.weave, occasion: S.occ, price: S.price }))}" class="btn btn-wa" target="_blank" rel="noopener">
       <svg class="ico"><use href="#i-wa"/></svg>Ask Curators on WhatsApp
      </a>
     </div>`;
@@ -759,7 +759,7 @@ $("#wlBody").onclick = e => {
 $("#wlSend").onclick = () => {
   const items = P.filter(p => S.wl.has(p.id));
   if (!items.length) return toast("Your wishlist is empty");
-  const msg = "Hello Garuda Vastra Silks, please keep these sarees ready for my visit:\n" + 
+  const msg = "Hello Garuda Styles, please keep these sarees ready for my visit:\n" + 
     items.map(p => `• ${p.n} – ${p.c} (${inr(p.pr)}, GVS-${String(p.id).padStart(3, "0")})`).join("\n");
   window.open(waLink(msg), "_blank");
 };
@@ -864,10 +864,10 @@ function openQV(id) {
     tryOn(p.id);
   };
   $("#qvBox [data-share]").onclick = async () => {
-    const text = `${p.n} (${p.c}) — ${inr(p.pr)} at Garuda Vastra Silks`;
+    const text = `${p.n} (${p.c}) — ${inr(p.pr)} at Garuda Styles`;
     try {
       if (navigator.share) {
-        await navigator.share({ title: "Garuda Vastra Silks", text, url: location.href.split("#")[0] });
+        await navigator.share({ title: "Garuda Styles", text, url: location.href.split("#")[0] });
       } else {
         window.open(waLink(text + " " + location.href.split("#")[0]), "_blank");
       }
@@ -925,7 +925,7 @@ $("#bd").min = d.toISOString().slice(0, 10);
 $("#bookForm").onsubmit = e => {
   e.preventDefault();
   const wl = P.filter(p => S.wl.has(p.id)).map(p => p.n).join(", ");
-  const msg = `Appointment request — Garuda Vastra Silks\nName: ${$("#bn").value}\nPhone: ${$("#bp").value}\nType: ${mode}\nShowroom: ${$("#bs").value}\nDate: ${$("#bd").value}\nOccasion: ${$("#bo").value}\nBudget: ${$("#bb").value}${$("#bnote").value ? "\nNote: " + $("#bnote").value : ""}${wl ? "\nWishlist: " + wl : ""}`;
+  const msg = `Appointment request — Garuda Styles\nName: ${$("#bn").value}\nPhone: ${$("#bp").value}\nType: ${mode}\nShowroom: ${$("#bs").value}\nDate: ${$("#bd").value}\nOccasion: ${$("#bo").value}\nBudget: ${$("#bb").value}${$("#bnote").value ? "\nNote: " + $("#bnote").value : ""}${wl ? "\nWishlist: " + wl : ""}`;
   window.open(waLink(msg), "_blank");
   toast("Appointment request prepared — click Send on WhatsApp to confirm");
   e.target.reset();
@@ -1281,7 +1281,7 @@ function paint() {
   ctx.textAlign = "right";
   ctx.font = "600 15px 'Inter', sans-serif";
   ctx.fillStyle = "#C5A04A";
-  ctx.fillText(`${inr(S.sel.pr)}  |  GARUDA VASTRA ATELIER`, W - 32, H - 34);
+  ctx.fillText(`${inr(S.sel.pr)}  |  GARUDA STYLES ATELIER`, W - 32, H - 34);
   ctx.textAlign = "start";
 }
 
@@ -1485,7 +1485,7 @@ drop.addEventListener("drop", e => loadFile(e.dataTransfer.files[0]));
 
 $("#dl").onclick = () => {
   const a = document.createElement("a");
-  a.download = `garuda-vastra-look-${S.sel.id}.jpg`;
+  a.download = `garuda-styles-look-${S.sel.id}.jpg`;
   a.href = cv.toDataURL("image/jpeg", 0.94);
   a.click();
   $("#s3").classList.add("on");
@@ -1493,7 +1493,7 @@ $("#dl").onclick = () => {
 };
 
 $("#shareLook").onclick = () => {
-  window.open(waLink(`Hello Garuda Vastra Silks, I tried on the ${S.sel.n} (${S.sel.c}, GVS-${String(S.sel.id).padStart(3, "0")}) using your Virtual Try-On Studio. Please reserve it for me — I would like to see it at your showroom.`), "_blank");
+  window.open(waLink(`Hello Garuda Styles, I tried on the ${S.sel.n} (${S.sel.c}, GVS-${String(S.sel.id).padStart(3, "0")}) using your Virtual Try-On Studio. Please reserve it for me — I would like to see it at your showroom.`), "_blank");
   $("#s3").classList.add("on");
 };
 
@@ -1552,7 +1552,7 @@ function initStudioControls() {
       if (aiOverlay) {
         aiOverlay.style.display = "flex";
         if (aiBar) aiBar.style.width = "20%";
-        if (aiStatus) aiStatus.textContent = "Connecting to Garuda Vastra Neural Atelier...";
+        if (aiStatus) aiStatus.textContent = "Connecting to Garuda Styles Neural Atelier...";
         
         setTimeout(() => {
           if (aiBar) aiBar.style.width = "55%";

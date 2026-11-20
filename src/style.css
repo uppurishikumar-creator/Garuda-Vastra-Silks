@@ -457,19 +457,27 @@ header.top .wrap {
   display: flex;
   align-items: center;
   gap: 12px;
-  height: 58px;
+  height: 60px;
 }
 
 .logo img {
-  height: 56px;
+  height: 50px;
   width: auto;
+  max-width: 280px;
   object-fit: contain;
-  mix-blend-mode: multiply;
   transition: transform var(--transition);
 }
 
 .logo:hover img {
-  transform: scale(1.03);
+  transform: scale(1.02);
+}
+
+.footer-logo-img {
+  height: 50px;
+  width: auto;
+  max-width: 280px;
+  margin-bottom: 16px;
+  display: block;
 }
 
 .logo .wm {
@@ -2312,20 +2320,33 @@ input[type=range] {
 }
 
 .dept-card .dept-media {
-  aspect-ratio: 16 / 11;
+  aspect-ratio: 4 / 5;
   background: var(--ivory-warm);
   overflow: hidden;
+  position: relative;
+}
+
+.dept-card .dept-media .dept-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(33, 28, 43, 0.45) 0%, transparent 60%);
+  transition: opacity 0.5s ease;
+}
+
+.dept-card:hover .dept-media .dept-sheen {
+  opacity: 0.7;
 }
 
 .dept-card .dept-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s var(--ease-luxury);
+  transition: transform 0.8s var(--ease-luxury);
 }
 
 .dept-card:hover .dept-media img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .dept-card .dept-info {
@@ -2600,6 +2621,15 @@ input[type=range] {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.booking-art .booking-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, transparent 55%, rgba(21, 63, 54, 0.25) 100%);
 }
 
 .booking-art .overlay-card {
@@ -2608,10 +2638,25 @@ input[type=range] {
   right: 20px;
   bottom: 20px;
   background: rgba(245, 239, 228, 0.94);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
   border-radius: var(--radius-md);
-  padding: 20px;
-  border: 1px solid var(--line);
+  padding: 20px 22px;
+  border: 1px solid rgba(197, 160, 74, 0.35);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.booking-art .booking-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  background: rgba(197, 160, 74, 0.15);
+  border: 1px solid rgba(197, 160, 74, 0.35);
+  padding: 3px 9px;
+  border-radius: 999px;
+  margin-bottom: 8px;
 }
 
 .booking-art .overlay-card b {
