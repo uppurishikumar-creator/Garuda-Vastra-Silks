@@ -2959,6 +2959,20 @@ footer .te-name {
   transform: translateY(-2px);
 }
 
+.footer-bottom .staff-login {
+  color: inherit;
+  opacity: 0.55;
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  margin-right: 72px; /* keep clear of the floating WhatsApp button */
+}
+.footer-bottom .staff-login:hover,
+.footer-bottom .staff-login:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+
 .footer-bottom {
   border-top: 1px solid rgba(245, 239, 228, 0.1);
   margin-top: 60px;

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bill</title>
+<style>
+  @page { size: 80mm auto; margin: 3mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; font-size: 12px; color: #000; background: #eee; }
+  .r { width: 74mm; margin: 10px auto; background: #fff; padding: 4mm 3mm; }
+  .c { text-align: center; }
+  h1 { font-size: 17px; margin: 0 0 2px; letter-spacing: .5px; }
+  .s { font-size: 10.5px; line-height: 1.35; }
+  .hr { border-top: 1px dashed #000; margin: 6px 0; }
+  table { width: 100%; border-collapse: collapse; }
+  td, th { padding: 2px 0; vertical-align: top; font-size: 11.5px; }
+  th { text-align: left; border-bottom: 1px solid #000; font-size: 10.5px; }
+  .n { text-align: right; white-space: nowrap; padding-left: 7px; }
+  .tot td { font-size: 15px; font-weight: 700; padding-top: 4px; }
+  .title { font-weight: 700; font-size: 13px; border: 1px solid #000; display: inline-block; padding: 1px 8px; margin: 4px 0; }
+  .bc { width: 100%; height: 40px; margin-top: 6px; }
+  .tools { text-align: center; margin: 10px; }
+  .tools button { font: inherit; padding: 8px 16px; margin: 0 4px; cursor: pointer; }
+  @media print { body { background: #fff; } .r { margin: 0; width: auto; } .tools { display: none; } }
+</style>
+</head>
+<body>
+<div class="tools"><button id="p">🖨️ Print</button><button id="x">Close</button></div>
+<div class="r" id="r">Loading…</div>
+<script src="/admin/common.js"></script>
+<script src="/admin/receipt.js"></script>
+</body>
+</html>

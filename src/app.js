@@ -232,7 +232,7 @@ const toast = (m) => {
 };
 
 const waLink = (text) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
-const ask = p => waLink(`Hello Garuda Styles, I'm interested in the ${p.n} (${p.c}) — ref GVS-${String(p.id).padStart(3, "0")}. Is it available, and at which showroom?`);
+const ask = p => waLink(`Hello Garuda Styles, I'm interested in the ${p.n} (${p.c}) — ref ${p.sku || "GVS-" + String(p.id).padStart(3, "0")}. Is it available, and at which showroom?`);
 
 // Showrooms open 10:00 AM to 10:00 PM local time
 const isOpen = () => {
@@ -1931,3 +1931,40 @@ paint();
 
 // Dynamic showroom timer refresh
 setInterval(renderStores, 60000);
+
+/* ---------- live catalogue from the shop's admin panel ----------
+   When the site runs with the Node server (npm start), products, prices and
+   in/out of stock come from the admin panel. On a static host (e.g. Vercel
+   preview without the server) the request fails and the sample catalogue stays. */
+(async function loadLiveCatalogue() {
+  try {
+    const res = await fetch("/api/public/products", { headers: { Accept: "application/json" } });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data || !Array.isArray(data.products) || !data.products.length) return;
+    // Product text is typed by staff — strip characters that could break the HTML templates
+    const clean = v => String(v == null ? "" : v).replace(/[<>"'`]/g, "");
+    const live = data.products.map(x => {
+      const pal = x.id % PAL.length;
+      const img = /^https?:\/\//i.test(x.image_url || "") ? clean(x.image_url) : (SAREE_REAL_PHOTOS[(x.id % 13) + 1] || sareeArt(pal));
+      return {
+        id: x.id, sku: clean(x.sku), n: clean(x.name), c: clean(x.colour_desc || x.size || ""), w: clean(x.category),
+        o: clean(x.occasion || "Everyday"), col: clean(x.colour || ""), pr: Number(x.price) || 0,
+        mrp: x.mrp && x.mrp > x.price ? Number(x.mrp) : undefined, pal, img,
+        tag: x.in_stock ? (clean(x.tag) || undefined) : "SOLD OUT", inStock: !!x.in_stock
+      };
+    });
+    P.length = 0;
+    live.forEach(p => P.push(p));
+    S.sel = P.find(p => p.inStock) || P[0];
+    S.wl = new Set([...S.wl].filter(id => P.some(p => p.id === id)));
+    saveWl();
+    $("#wlCount").textContent = S.wl.size;
+    $("#wlCount2").textContent = S.wl.size;
+    render();
+    renderPick();
+    drawMannequin();
+    const note = $("#catalogueNote");
+    if (note) note.textContent = "Live catalogue · Availability updated from our showrooms";
+  } catch (e) { /* keep sample catalogue */ }
+})();

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Print labels</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: #000; background: #e9e6e0; }
+  .tools { padding: 12px; text-align: center; font-size: 14px; }
+  .tools button { font: inherit; padding: 8px 16px; cursor: pointer; margin-left: 6px; }
+  .sheet { display: flex; flex-wrap: wrap; background: #fff; margin: 0 auto; }
+  .lbl { overflow: hidden; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; column-gap: 1.5mm; }
+  .lbl .nm { grid-column: 1 / 2; font-weight: 700; line-height: 1.1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .lbl .meta { grid-column: 1 / 2; line-height: 1.15; }
+  .lbl .pr { font-weight: 800; }
+  .lbl .qr { grid-column: 2; grid-row: 1 / 3; }
+  .lbl .bc { grid-column: 1 / 3; width: 100%; display: block; }
+  .lbl .sku { font-family: Consolas, monospace; letter-spacing: .5px; }
+
+  /* A4: 3 x 8 labels of 70 x 37 mm */
+  body.a4 .sheet { width: 210mm; padding: 4.5mm 0 0; }
+  body.a4 .lbl { width: 70mm; height: 37mm; padding: 2.5mm 3mm; font-size: 8.5pt; }
+  body.a4 .lbl .pr { font-size: 12pt; }
+  body.a4 .lbl .qr { width: 16mm; height: 16mm; }
+  body.a4 .lbl .bc { height: 8mm; margin-top: .8mm; }
+  /* Thermal roll: one 50 x 25 mm label per page */
+  body.thermal .sheet { width: 50mm; }
+  body.thermal .lbl { width: 50mm; height: 25mm; padding: 1.2mm 1.6mm; font-size: 6.5pt; page-break-after: always; break-after: page; }
+  body.thermal .lbl .pr { font-size: 9pt; }
+  body.thermal .lbl .qr { width: 11mm; height: 11mm; }
+  body.thermal .lbl .bc { height: 6mm; margin-top: .5mm; }
+
+  @media screen { .lbl { outline: 1px dashed #bbb; } }
+  @media print { body { background: #fff; } .tools { display: none; } }
+</style>
+<style id="pageSize"></style>
+</head>
+<body>
+<div class="tools"><span id="info">Loading…</span> <button id="p">🖨️ Print</button></div>
+<div class="sheet" id="sheet"></div>
+<script src="/admin/common.js"></script>
+<script src="/admin/labels.js"></script>
+</body>
+</html>

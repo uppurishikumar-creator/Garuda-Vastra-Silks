@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Billing Counter · Garuda Vastra Silks</title>
+<link rel="icon" href="/src/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/admin.css">
+<link rel="stylesheet" href="/admin/pos.css">
+</head>
+<body class="pos">
+<header class="pos-top">
+  <a href="/admin/" class="pos-brand"><img src="/src/favicon.svg" width="30" height="30" alt=""><b>Billing Counter</b></a>
+  <div class="tabs" id="modeTabs">
+    <button class="on" data-mode="sale">🛒 Sale <kbd>F1</kbd></button>
+    <button data-mode="return">↩ Return / Exchange <kbd>F2</kbd></button>
+    <button data-mode="check">🔍 Price check <kbd>F3</kbd></button>
+  </div>
+  <div class="pos-user"><select id="branchSel" class="hidden"></select><span id="who"></span> <a href="/admin/" class="btn sm">Admin</a> <button class="btn sm" id="posLogout" type="button">Log out</button></div>
+</header>
+
+<div class="pos-body">
+  <section class="pos-left">
+    <div class="scanbar">
+      <span class="scan-ico">▮▯▮▮▯▮</span>
+      <input id="scan" placeholder="Scan sticker (or type SKU) and press Enter" autocomplete="off" autofocus>
+      <button class="btn" id="camBtn" type="button">📷 Camera</button>
+    </div>
+    <div id="reader" class="reader hidden"></div>
+    <div id="leftBody"></div>
+  </section>
+
+  <aside class="pos-right" id="rightBody"></aside>
+</div>
+
+<iframe id="printFrame" title="print" style="position:absolute;width:0;height:0;border:0;left:-9999px"></iframe>
+<script src="/admin/vendor/html5-qrcode.min.js"></script>
+<script src="/admin/common.js"></script>
+<script src="/admin/pos.js"></script>
+</body>
+</html>

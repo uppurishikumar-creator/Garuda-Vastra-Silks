@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin · Garuda Vastra Silks</title>
+<link rel="icon" href="/src/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+
+<!-- Login / change password -->
+<div id="authView" class="login-wrap hidden">
+  <form class="login" id="loginForm" autocomplete="on">
+    <div class="brand"><img src="/src/favicon.svg" width="40" height="40" alt=""><div><b>Garuda Vastra Silks</b><span>Staff login</span></div></div>
+    <div id="loginErr" class="err-box hidden"></div>
+    <div class="field"><label for="lu">Username</label><input id="lu" name="username" autocomplete="username" required autofocus></div>
+    <div class="field"><label for="lp">Password</label><input id="lp" name="password" type="password" autocomplete="current-password" required></div>
+    <button class="btn primary lg" style="width:100%" type="submit">Log in</button>
+    <p class="small muted" style="text-align:center;margin:1rem 0 0">For Garuda staff only. Accounts are created by the owner.<br><a href="/">← Back to website</a></p>
+  </form>
+  <form class="login hidden" id="pwForm">
+    <div class="brand"><img src="/src/favicon.svg" width="40" height="40" alt=""><div><b>Set a new password</b><span>Required before continuing</span></div></div>
+    <div id="pwErr" class="err-box hidden"></div>
+    <div class="field"><label for="pc">Current password</label><input id="pc" type="password" autocomplete="current-password" required></div>
+    <div class="field"><label for="pn">New password (min 8 characters)</label><input id="pn" type="password" autocomplete="new-password" minlength="8" required></div>
+    <div class="field"><label for="pn2">Repeat new password</label><input id="pn2" type="password" autocomplete="new-password" minlength="8" required></div>
+    <button class="btn primary lg" style="width:100%" type="submit">Save password</button>
+  </form>
+</div>
+
+<!-- App -->
+<div id="appView" class="shell hidden">
+  <aside class="side" id="side">
+    <div class="brand"><img src="/src/favicon.svg" width="36" height="36" alt=""><div><b>Garuda</b><span>Admin Panel</span></div></div>
+    <nav class="nav" id="nav">
+      <a href="#dashboard" data-v="dashboard">📊 Dashboard</a>
+      <a href="#products" data-v="products">👗 Products &amp; Stock</a>
+      <a href="#stockin" data-v="stockin" data-min="manager">📦 Stock In</a>
+      <a href="#labels" data-v="labels" data-min="manager">🏷️ Print Labels</a>
+      <a href="#coupons" data-v="coupons" data-min="manager">🎟️ Coupons</a>
+      <a href="#bills" data-v="bills">🧾 Bills &amp; Returns</a>
+      <a href="#staff" data-v="staff" data-min="owner">👥 Staff</a>
+      <a href="#settings" data-v="settings" data-min="owner">⚙️ Settings</a>
+      <a href="/admin/pos.html" class="pos">🛒 Open Billing Counter</a>
+    </nav>
+    <div class="side-foot">
+      <div id="whoami"></div>
+      <button class="btn sm" id="logoutBtn" type="button">Log out</button>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modal"></div></div>
+
+<script src="/admin/vendor/html5-qrcode.min.js"></script>
+<script src="/admin/common.js"></script>
+<script src="/admin/admin.js"></script>
+</body>
+</html>
