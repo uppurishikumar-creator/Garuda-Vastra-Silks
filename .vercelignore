@@ -1,0 +1,12 @@
+# Vercel only hosts the static website preview.
+# The server, admin panel and database run on the VPS — never upload them to Vercel.
+server.js
+backend/
+admin/
+data/
+data-test/
+screenshots/
+test-admin.js
+test-playwright.js
+*.pdf
+.env
