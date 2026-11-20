@@ -8,15 +8,29 @@ A redesign for Garuda Vastra Silks by **Driksha** (https://driksha-website-mt52.
 | Admin panel | `/admin` | Dashboard, products & stock (per branch), stock in, barcode/QR labels, coupons, bills & returns, staff, settings |
 | Billing counter | `/admin/pos.html` | Scan sticker → bill → stock reduced → bill printed → saved. Return/exchange and price check modes. |
 
-## Run it
+## Run it on your laptop
 
 ```bash
 npm install
 npm start
 ```
 
-Open http://localhost:3000/admin. On the very first start the terminal prints the **owner password**
-(also saved in `data/FIRST-LOGIN.txt` — delete that file after logging in). You must set a new password on first login.
+Open http://localhost:3000/admin. With no `DATABASE_URL`, a local Postgres database (PGlite) is created in `data/` automatically.
+On the very first start the terminal prints the **owner password** (also in `data/FIRST-LOGIN.txt` — delete it after logging in).
+
+## Deploy everything on Vercel (website + admin + billing)
+
+1. Push to GitHub (Vercel redeploys automatically).
+2. Vercel → your project → **Storage** → **Create Database** → **Neon (Postgres)** → connect it to this project.
+   This adds `DATABASE_URL` automatically.
+3. Vercel → **Settings → Environment Variables** → add `ADMIN_PASSWORD` (your first owner password) and
+   `JWT_SECRET` (any long random text, 32+ characters).
+4. **Deployments** → latest → **Redeploy**.
+5. Open `https://<your-site>.vercel.app/admin` → log in as `owner` with `ADMIN_PASSWORD` → set a new password.
+
+How it runs: `dist/` (website + admin pages) is served by Vercel's CDN, and `/api/*` runs `api/index.js`
+(the same Express app as `server.js`) as a serverless function connected to Neon.
+The same code also runs on any VPS with `npm start` + `DATABASE_URL`.
 
 ## How the billing counter works
 
@@ -54,25 +68,28 @@ Paper: A4 sheet (3×8 = 24 labels of 70×37 mm) or a thermal label roll (50×25 
 
 ## Data & safety
 
-- Database: SQLite file in `data/garuda.db`. **`data/` and `.env` are in `.gitignore` — never commit them.**
-- Automatic daily backup into `data/backups/` (last 30 kept). Manual: `npm run backup`. Copy backups to Google Drive / a pen drive regularly.
-- Passwords hashed (bcrypt), login cookie is httpOnly, login is rate-limited, every price/coupon/GST is recalculated on the server, all stock changes are logged with who and when.
-- Only the website, `/src` assets and `/admin` are served — the database, source code and `.env` are never reachable from the browser.
-- Settings: copy `.env.example` to `.env`. On a live server set `NODE_ENV=production` and use HTTPS.
+- Database: **PostgreSQL** — Neon online (Vercel/VPS) or PGlite locally in `data/pglite`. `data/` and `.env` are git-ignored.
+- Backups: `npm run backup` exports every table to a JSON file in `data/backups/` (set `DATABASE_URL` in `.env` to back up Neon).
+  On a laptop/VPS this also runs automatically every day. Neon also keeps its own restore history.
+- Passwords hashed (bcrypt), httpOnly login cookie (HTTPS-only online), login locked after 10 wrong tries in 15 minutes,
+  every price/coupon/GST recalculated on the server, all stock changes logged with who and when.
+- Safe with many counters at once: stock can never go below zero and invoice numbers never repeat
+  (tested with 4 counters selling the last piece at the same moment — exactly one sale went through).
 
 ## Before going live — check with the shop
 
 - **GST**: rates and HSN codes per product, GSTIN per branch, bill format → confirm with their accountant. (Default 5%, HSN 5007 are placeholders.)
 - Do they already use billing software (Tally, Marg…)? Bills can be exported as CSV (Bills → Export CSV).
-- **Hosting**: Vercel only hosts the static website — the admin panel and database need a Node server
-  (a VPS, Railway/Render with a persistent disk, or a PC in the shop). Needs Node 22.13 or newer (uses the built-in node:sqlite — nothing to compile). Without the server the website falls back to the sample catalogue.
+- **Hosting**: Vercel + Neon (free plans are enough to start), or a VPS. Billing needs internet; keep a mobile hotspot as backup.
 - Internet: billing needs the server to be reachable. If the server runs online, keep a mobile hotspot as backup.
 
 ## Project structure
 
 ```
-server.js            Express server (website, admin, API, daily backup)
-backend/db.js        Database tables + first-run setup
+server.js            Runs the app on a laptop / VPS (+ daily backup)
+api/index.js         Runs the same app on Vercel
+backend/app.js       Express app (website, admin, API)
+backend/db.js        Postgres connection (Neon or local PGlite), tables, first-run setup
 backend/auth.js      Login, roles, sessions
 backend/billing.js   Bill / coupon / GST maths, invoice numbers, returns
 backend/api.js       All /api routes

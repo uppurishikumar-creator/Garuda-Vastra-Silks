@@ -8,7 +8,12 @@
 
   const rupees = n => '₹' + Number(n || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
   const paise = p => '₹' + (Number(p || 0) / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const ist = s => s ? new Date(s.replace(' ', 'T') + 'Z').toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' }) : '';
+  // Accepts ISO dates from the server ("2026-11-20T17:36:10.000Z") and old "YYYY-MM-DD HH:MM:SS" (UTC) format
+  const ist = s => {
+    if (!s) return '';
+    const d = new Date(/[TZ+]/.test(String(s)) ? s : String(s).replace(' ', 'T') + 'Z');
+    return isNaN(d) ? String(s) : d.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' });
+  };
   const todayIST = () => new Date(Date.now() + 5.5 * 3600e3).toISOString().slice(0, 10);
 
   async function api(path, opts = {}) {
