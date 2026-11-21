@@ -1,6 +1,6 @@
 // Garuda Vastra Silks — run on your laptop or a VPS:  npm start  →  http://localhost:3000  (admin: /admin)
 // On Vercel this file is not used: api/index.js runs the same app as a serverless function.
-require('dotenv').config({ quiet: true });
+if (!process.env.VERCEL) require('dotenv').config({ quiet: true });
 const path = require('path');
 const fs = require('fs');
 const app = require('./backend/app');
@@ -22,16 +22,22 @@ async function backupNow() {
   console.log('Database backup saved:', file);
 }
 
-db.ready().then(async () => {
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Garuda Vastra Silks running (${db.kind === 'local' ? 'local database in ./data' : 'online Postgres database'}):`);
-    console.log(`  Website         → http://localhost:${PORT}/`);
-    console.log(`  Admin panel     → http://localhost:${PORT}/admin`);
-    console.log(`  Billing counter → http://localhost:${PORT}/admin/pos.html`);
+if (process.env.VERCEL) {
+  // On Vercel this file may be picked up as the Express entry point: just export the app.
+  // (No app.listen, no file backups, never exit the process.)
+  module.exports = app;
+} else {
+  db.ready().then(async () => {
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Garuda Vastra Silks running (${db.kind === 'local' ? 'local database in ./data' : 'online Postgres database'}):`);
+      console.log(`  Website         → http://localhost:${PORT}/`);
+      console.log(`  Admin panel     → http://localhost:${PORT}/admin`);
+      console.log(`  Billing counter → http://localhost:${PORT}/admin/pos.html`);
+    });
+    backupNow().catch(e => console.error('Backup failed:', e.message));
+    setInterval(() => backupNow().catch(e => console.error('Backup failed:', e.message)), 60 * 60 * 1000).unref();
+  }).catch(e => {
+    console.error('\nCould not start the database:\n', e.message, '\n');
+    process.exit(1);
   });
-  backupNow().catch(e => console.error('Backup failed:', e.message));
-  setInterval(() => backupNow().catch(e => console.error('Backup failed:', e.message)), 60 * 60 * 1000).unref();
-}).catch(e => {
-  console.error('\nCould not start the database:\n', e.message, '\n');
-  process.exit(1);
-});
+}
