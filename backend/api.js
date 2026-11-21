@@ -14,7 +14,7 @@ router.use(express.json({ limit: '1mb' }));
 // Make sure tables exist before the first request (also on a fresh Vercel instance)
 router.use(async (req, res, next) => {
   try { await db.ready(); next(); }
-  catch (e) { console.error('Database setup failed:', e); res.status(503).json({ error: 'Database is not reachable. Please try again in a minute.' }); }
+  catch (e) { console.error('Database setup failed:', e); res.status(503).json({ error: 'Database is not reachable: ' + (e.code ? e.code + ' ' : '') + String(e.message || e).slice(0, 200) }); }
 });
 
 const auth = requireAuth('cashier');

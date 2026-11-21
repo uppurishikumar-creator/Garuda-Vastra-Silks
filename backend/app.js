@@ -14,6 +14,20 @@ app.set('trust proxy', 1);
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 app.use(cookieParser());
 
+// Vercel pre-reads the request body and exposes it as a read-only req.body.
+// Make it a normal value and tell Express's JSON parser it is already done,
+// otherwise every POST (login, bills…) fails with a 500.
+app.use((req, res, next) => {
+  const d = Object.getOwnPropertyDescriptor(req, 'body');
+  if (d && (d.get || d.writable === false)) {
+    let value;
+    try { value = req.body; } catch { return res.status(400).json({ error: 'Invalid request body' }); }
+    try { Object.defineProperty(req, 'body', { value, writable: true, configurable: true, enumerable: true }); } catch { /* keep as is */ }
+    if (value !== undefined) req._body = true;
+  }
+  next();
+});
+
 /* ---------- Virtual Try-On API (unchanged behaviour) ---------- */
 app.post('/api/tryon', express.json({ limit: '25mb' }), (req, res) => {
   const { sareeId, sareeName, apiKey, provider } = req.body || {};
