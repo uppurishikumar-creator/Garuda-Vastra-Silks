@@ -178,10 +178,11 @@ async function products() {
   };
 }
 
-function productForm(p = null) {
-  const v = k => esc(p ? (p[k] == null ? '' : p[k]) : '');
+// opts: { sku, qty, branch, onSaved(product) } — used when an unknown barcode is scanned in Stock In
+function productForm(p = null, opts = {}) {
+  const v = k => esc(p ? (p[k] == null ? '' : p[k]) : (k === 'sku' && opts.sku ? opts.sku : ''));
   openModal(`<form id="pf">
-    <div class="modal-head"><h2>${p ? 'Edit product' : 'Add product'}</h2><button type="button" class="btn sm" data-close>✕</button></div>
+    <div class="modal-head"><h2>${p ? 'Edit product' : opts.sku ? 'New barcode — add this product' : 'Add product'}</h2><button type="button" class="btn sm" data-close>✕</button></div>
     <div class="grid g2">
       <div class="field"><label>Product name *</label><input name="name" required value="${v('name')}" placeholder="Kanchipuram Pattu Saree / Cotton Shirt"></div>
       <div class="field"><label>SKU / barcode ${p ? '' : '(leave empty = auto)'}</label><input name="sku" ${p ? 'disabled' : ''} value="${v('sku')}" placeholder="GVS00014" pattern="[A-Za-z0-9-]+"></div>
@@ -197,7 +198,7 @@ function productForm(p = null) {
       <div class="field"><label>GST %</label><input name="gst_rate" type="number" min="0" max="28" step="0.5" value="${p ? v('gst_rate') : ''}" placeholder="default from settings"></div>
       <div class="field"><label>HSN code</label><input name="hsn" value="${v('hsn')}" placeholder="default from settings"></div>
       <div class="field"><label>Low stock alert at</label><input name="low_stock_at" type="number" min="0" value="${p ? v('low_stock_at') : 2}"></div>
-      ${p ? '' : `<div class="field"><label>Opening stock (this branch)</label><input name="initial_qty" type="number" min="0" value="0"></div>`}
+      ${p ? '' : `<div class="field"><label>Opening stock (this branch)</label><input name="initial_qty" type="number" min="0" value="${opts.qty != null ? +opts.qty : 0}"></div>`}
     </div>
     <div class="field"><label>Photo link (https://…)</label><input name="image_url" type="url" value="${v('image_url')}" placeholder="https://…"></div>
     <label class="check"><input type="checkbox" name="online" ${!p || p.online ? 'checked' : ''}> Show on website</label>
@@ -210,7 +211,11 @@ function productForm(p = null) {
     const d = formData(e.target); d.online = e.target.online.checked;
     try {
       if (p) await api('/products/' + p.id, { method: 'PUT', body: d });
-      else { d.branch_id = prodState.branch || ME.branch_id; const r = await api('/products', { method: 'POST', body: d }); toast('Saved — SKU ' + r.sku); }
+      else {
+        d.branch_id = opts.branch || prodState.branch || ME.branch_id;
+        const r = await api('/products', { method: 'POST', body: d }); toast('Saved — SKU ' + r.sku);
+        if (opts.onSaved) { closeModal(); opts.onSaved(r, +d.initial_qty || 0); return; }
+      }
       if (p) toast('Saved');
       closeModal(); products();
     } catch (err) { toast(err.message, 'err'); }
@@ -246,47 +251,102 @@ async function stockModal(p, branch) {
 
 /* ================= STOCK IN (scan new goods) ================= */
 async function stockin() {
-  const items = []; let cam = null;
-  let branch = ME.branch_id;
+  let cam = null, branch = ME.branch_id, instant = true;
+  const items = [];   // batch mode list
+  const log = [];     // instant mode history
   $('#main').innerHTML = topbar('Stock In', branchSelect('sib', branch)) + `
-    <div class="info-box">New goods arrived? Click the box below and scan each sticker with the scanner (or use the camera). Every scan adds 1. Change the number if needed, then press <b>Save stock</b>.</div>
+    <div class="info-box">New goods arrived? Just <b>scan each piece</b> — every scan adds 1 to stock straight away.
+      Scanned twice by mistake? Press <b>Undo</b>. A barcode the system doesn't know? It asks you to add it as a new product.</div>
     <div class="card"><div class="row">
-      <input class="grow" id="siScan" placeholder="Scan or type SKU and press Enter" autocomplete="off" autofocus>
+      <input class="grow" id="siScan" placeholder="Scan sticker / supplier barcode (or type SKU) and press Enter" autocomplete="off" autofocus>
       <button class="btn" id="siCam" type="button">📷 Camera</button>
-    </div><div id="siReader" style="max-width:420px;margin-top:.8rem"></div></div>
-    <div class="card"><div id="siList"></div>
-      <div class="row" style="margin-top:1rem"><input class="grow" id="siNote" placeholder="Note (supplier, invoice no.) — optional">
-      <button class="btn primary lg" id="siSave">Save stock</button></div></div>`;
+    </div>
+    <div class="row" style="margin-top:.8rem">
+      <label class="check" style="margin:0"><input type="radio" name="simode" value="instant" checked> Instant — each scan is saved immediately</label>
+      <label class="check" style="margin:0"><input type="radio" name="simode" value="batch"> Batch — check the list, then save</label>
+    </div>
+    <div id="siReader" style="max-width:420px;margin-top:.8rem"></div></div>
+    <div class="card" id="siBody"></div>`;
 
   const draw = () => {
-    $('#siList').innerHTML = items.length ? `<table><tr><th>SKU</th><th>Product</th><th class="num">Now in stock</th><th class="num">Adding</th><th></th></tr>${items.map((it, i) => `
-      <tr><td class="mono">${esc(it.sku)}</td><td>${esc(it.name)} <span class="small muted">${esc(it.size || '')}</span></td><td class="num">${it.stock}</td>
-      <td class="num"><input type="number" min="1" value="${it.qty}" data-q="${i}" class="label-qty"></td><td class="right"><button class="btn sm danger" data-rm="${i}">✕</button></td></tr>`).join('')}</table>
-      <p class="right"><b>Total pieces: ${items.reduce((s, x) => s + x.qty, 0)}</b></p>` : '<div class="empty">Nothing scanned yet</div>';
+    if (instant) {
+      const total = log.filter(l => !l.undone).reduce((s, l) => s + l.qty, 0);
+      $('#siBody').innerHTML = log.length ? `<div class="row"><h3 style="margin:0">Added this session</h3><span style="flex:1"></span><b>${total} pieces</b></div>
+        <table style="margin-top:.6rem"><tr><th>Time</th><th>SKU</th><th>Product</th><th class="num">Added</th><th class="num">Stock now</th><th></th></tr>
+        ${log.map((l, i) => `<tr style="${l.undone ? 'opacity:.45;text-decoration:line-through' : ''}"><td class="small">${esc(l.time)}</td><td class="mono">${esc(l.sku)}</td>
+          <td>${esc(l.name)} <span class="small muted">${esc(l.size || '')}</span></td><td class="num">+${l.qty}</td><td class="num"><span class="pill ok">${l.stock}</span></td>
+          <td class="right">${l.undone ? 'undone' : `<button class="btn sm" data-undo="${i}">Undo</button>`}</td></tr>`).join('')}</table>`
+        : '<div class="empty">Scan the first piece — it is added to stock immediately.</div>';
+    } else {
+      $('#siBody').innerHTML = (items.length ? `<table><tr><th>SKU</th><th>Product</th><th class="num">Now in stock</th><th class="num">Adding</th><th></th></tr>${items.map((it, i) => `
+        <tr><td class="mono">${esc(it.sku)}</td><td>${esc(it.name)} <span class="small muted">${esc(it.size || '')}</span></td><td class="num">${it.stock}</td>
+        <td class="num"><input type="number" min="1" value="${it.qty}" data-q="${i}" class="label-qty"></td><td class="right"><button class="btn sm danger" data-rm="${i}">✕</button></td></tr>`).join('')}</table>
+        <p class="right"><b>Total pieces: ${items.reduce((s, x) => s + x.qty, 0)}</b></p>` : '<div class="empty">Nothing scanned yet</div>') + `
+        <div class="row" style="margin-top:1rem"><input class="grow" id="siNote" placeholder="Note (supplier, invoice no.) — optional">
+        <button class="btn primary lg" id="siSave">Save stock</button></div>`;
+    }
   };
+
+  const logIt = (r, qty) => log.unshift({ product_id: r.product_id, sku: r.sku, name: r.name, size: r.size, qty, stock: r.stock,
+    time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) });
+
+  // Unknown barcode → offer to create the product right here (barcode becomes its SKU)
+  const newProduct = code => {
+    GVS.beep(false);
+    if (!/^[A-Za-z0-9-]{1,40}$/.test(code)) return toast(`"${code}" is not a valid code`, 'err');
+    productForm(null, { sku: code, qty: 1, branch, onSaved: (prod, qty) => {
+      if (qty > 0) {
+        if (instant) logIt({ product_id: prod.id, sku: prod.sku, name: prod.name, size: prod.size, stock: qty }, qty);
+        else toast('Product created with its opening stock');
+      }
+      draw(); $('#siScan').focus();
+    } });
+  };
+
   const add = async code => {
-    try {
-      const p = await api('/products/lookup/' + encodeURIComponent(code) + '?branch_id=' + branch);
+    let p;
+    try { p = await api('/products/lookup/' + encodeURIComponent(code) + '?branch_id=' + branch); }
+    catch (err) { if (/No product/.test(err.message)) return newProduct(code); GVS.beep(false); return toast(err.message, 'err'); }
+    if (instant) {
+      try {
+        const r = await api('/stock/in', { method: 'POST', body: { branch_id: branch, note: 'Scan', items: [{ product_id: p.id, qty: 1 }] } });
+        logIt(r.items[0], 1); GVS.beep(true); draw();
+      } catch (err) { GVS.beep(false); toast(err.message, 'err'); }
+    } else {
       const ex = items.find(x => x.id === p.id);
       if (ex) ex.qty++; else items.unshift({ id: p.id, sku: p.sku, name: p.name, size: p.size, stock: p.stock, qty: 1 });
       GVS.beep(true); draw();
-    } catch (err) { GVS.beep(false); toast(err.message, 'err'); }
+    }
   };
+
   draw();
   $('#siScan').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); const c = e.target.value.trim(); e.target.value = ''; if (c) add(c); } };
-  $('#siList').oninput = e => { const q = e.target.dataset.q; if (q != null) items[q].qty = Math.max(1, parseInt(e.target.value, 10) || 1); };
-  $('#siList').onclick = e => { const r = e.target.closest('[data-rm]'); if (r) { items.splice(+r.dataset.rm, 1); draw(); } };
-  if ($('#sib')) $('#sib').onchange = e => { branch = +e.target.value; items.length = 0; draw(); };
+  $$('[name=simode]').forEach(r => r.onchange = () => {
+    if (!instant && items.length && !confirm('The unsaved list will be cleared. Continue?')) { $('[name=simode][value=batch]').checked = true; return; }
+    instant = $('[name=simode]:checked').value === 'instant'; items.length = 0; draw(); $('#siScan').focus();
+  });
+  $('#siBody').oninput = e => { const q = e.target.dataset.q; if (q != null) items[q].qty = Math.max(1, parseInt(e.target.value, 10) || 1); };
+  $('#siBody').onclick = async e => {
+    const rm = e.target.closest('[data-rm]'), un = e.target.closest('[data-undo]');
+    if (rm) { items.splice(+rm.dataset.rm, 1); draw(); }
+    if (un) {
+      const l = log[+un.dataset.undo];
+      try { const r = await api('/stock/undo', { method: 'POST', body: { branch_id: branch, product_id: l.product_id, qty: l.qty } });
+        l.undone = true; log.forEach(x => { if (x.product_id === l.product_id && !x.undone) x.stock = r.stock; }); toast('Undone'); draw(); }
+      catch (err) { toast(err.message, 'err'); }
+    }
+    if (e.target.id === 'siSave') {
+      if (!items.length) return toast('Scan something first', 'err');
+      try {
+        const r = await api('/stock/in', { method: 'POST', body: { branch_id: branch, note: $('#siNote').value, items: items.map(x => ({ product_id: x.id, qty: x.qty })) } });
+        toast(`Saved ${r.items.length} products (${r.ref})`); items.length = 0; draw(); $('#siScan').focus();
+      } catch (err) { toast(err.message, 'err'); }
+    }
+  };
+  if ($('#sib')) $('#sib').onchange = e => { branch = +e.target.value; items.length = 0; log.length = 0; draw(); };
   $('#siCam').onclick = async () => {
     if (cam) { cam.stop(); cam = null; $('#siCam').textContent = '📷 Camera'; return; }
     try { cam = await GVS.startCamera('siReader', add); $('#siCam').textContent = 'Stop camera'; } catch (err) { toast('Camera: ' + (err.message || err), 'err'); }
-  };
-  $('#siSave').onclick = async () => {
-    if (!items.length) return toast('Scan something first', 'err');
-    try {
-      const r = await api('/stock/in', { method: 'POST', body: { branch_id: branch, note: $('#siNote').value, items: items.map(x => ({ product_id: x.id, qty: x.qty })) } });
-      toast(`Saved ${r.items.length} products (${r.ref})`); items.length = 0; $('#siNote').value = ''; draw(); $('#siScan').focus();
-    } catch (err) { toast(err.message, 'err'); }
   };
   cleanup = () => { if (cam) cam.stop(); };
 }

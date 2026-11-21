@@ -24,10 +24,14 @@
 
 <div class="pos-body">
   <section class="pos-left">
-    <div class="scanbar">
-      <span class="scan-ico">▮▯▮▮▯▮</span>
-      <input id="scan" placeholder="Scan sticker (or type SKU) and press Enter" autocomplete="off" autofocus>
-      <button class="btn" id="camBtn" type="button">📷 Camera</button>
+    <div class="scanwrap">
+      <div class="scanbar">
+        <span class="scan-ico">▮▯▮▮▯▮</span>
+        <input id="scan" placeholder="Scan sticker — or type product name / SKU to search" autocomplete="off" autofocus
+               role="combobox" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false">
+        <button class="btn" id="camBtn" type="button">📷 Camera</button>
+      </div>
+      <div id="suggest" class="suggest hidden" role="listbox"></div>
     </div>
     <div id="reader" class="reader hidden"></div>
     <div id="leftBody"></div>
