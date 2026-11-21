@@ -31,7 +31,8 @@ const h = fn => async (req, res) => {
     if (e && (e.code === '23505' || /duplicate key/i.test(e.message || ''))) return res.status(409).json({ error: 'That code / SKU / username already exists' });
     if (e && (e.code === '23514' || /check constraint/i.test(e.message || ''))) return res.status(400).json({ error: 'Not enough stock or invalid value' });
     console.error(e);
-    res.status(500).json({ error: 'Something went wrong on the server' });
+    // Short technical reason (no data/passwords) so problems can be diagnosed from the browser
+    res.status(500).json({ error: 'Something went wrong on the server', reason: String((e && (e.code ? e.code + ': ' : '') + e.message) || e).slice(0, 300) });
   }
 };
 const bad = msg => { throw new BillError(msg); };

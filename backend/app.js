@@ -85,7 +85,7 @@ app.use((req, res) => res.status(404).type('text').send('404 Not Found'));
 app.use((err, req, res, next) => {
   console.error(err);
   if (res.headersSent) return next(err);
-  res.status(500).json({ error: 'Something went wrong on the server' });
+  res.status(err.status || 500).json({ error: 'Something went wrong on the server', reason: String((err && err.message) || err).slice(0, 300) });
 });
 
 module.exports = app;
